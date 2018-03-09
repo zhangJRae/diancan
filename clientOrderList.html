@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>重庆大酒店在线点餐系统</title>
+		<!-- 内部文档样式表 -->
+		<style>
+			/*body {
+				font-family: "宋体";
+				font-size: 12px;				
+				background: url(img/bj2.png)  center center;
+				background-attachment: fixed; 
+				background-repeat:no-repeat;			
+			}*/
+		/*	
+			#cqu { 
+		float: left;
+		margin-top:150px;
+		margin-left: -40px;		   
+        width: 20px;    
+        font-family:"楷体";    
+         line-height: 24px;    
+         font-size: 20px;  
+          }  
+			
+			#home {
+				float: left;
+				margin-top:40px;
+				margin-left: 40px;
+				width: 50px;
+				height: 60px;
+				background:url(img/home.png);
+				border:none;	
+				outline:none;
+				vertical-align: top;			
+			}
+			
+			#gwc {
+				float: left;
+				margin-top:100px;
+				margin-left: -50px;
+				width: 50px;
+				height: 60px;
+				background:url(img/gwc.png) no-repeat;
+				border:none;
+				outline:none;
+				vertical-align: top;				
+			}*/
+			
+			#orderlist {
+				/*float:right;
+				margin-top:40px;
+				margin-right: 240px;*/
+				position: relative;
+				width: 500px;	
+				height: 300px;		
+				border-radius: 10px;
+				/*background: url(img/kuang.png)  no-repeat ;
+				background-size: 100%;*/
+				
+			}
+			
+			#orderlist dl dt {
+				
+				font-size: 16px;
+				font-weight: bold;
+				text-align: center;
+				line-height: 50px;
+				color: black;				
+							
+			}
+			
+			#orderlist dl dt span {
+				letter-spacing: 2px;
+			}
+			#orderlist dl dd {
+				margin: 5px 0px;
+				text-align: center;
+			}
+			.input-size {
+				width: 260px;
+				height: 26px;
+				padding-left: 5px; /* 左部填充 */
+				line-height: 26px;
+			}
+			.btn-submit {
+				width: 270px;
+				height: 35px;
+				line-height: 30px;
+				margin-top: 10px;
+				margin-bottom: 10px;
+				/*background-color: black;*/
+				opacity:0.7;
+				border: 0px;
+				color: black;
+				cursor: pointer;
+				
+			}
+			.btn-submit:hover {
+				opacity: 0.8;
+			}
+			
+			.btn-add {
+				width: 20px;
+				height: 20px;				
+			    background: url(img/add.png) center center;
+				border:none;	
+				outline:none;
+				cursor: pointer;	
+				vertical-align: top;
+				margin-right: 10px;	
+				margin-left: 5px;
+				background-size:cover		 				
+			}
+			.btn-remove {
+				width: 20px;
+				height: 20px;				
+			    background: url(img/remove.png)  center center;
+				border:none;	
+				outline:none;
+				cursor: pointer;	
+				vertical-align: top;
+				margin-right: 10px;
+				margin-left: 10px;
+				background-size:cover		 				
+			}
+			
+			span {
+				text-align: center;
+				margin-right: 20px;	
+				margin-left: 20px;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<!--<input type="button" id="home"></input>
+		<input type="button" id="gwc"></input>
+		<div id="cqu">重庆大酒店</div> -->
+		<div id="orderlist">			
+			<form id="form1" name="form1" method="get" action="#">
+				<dl>
+				    <dt>已点清单列表</dt>				    
+				    <dd>
+				    <table align="center" width="100%">
+				    <thead>	
+					<tr >
+				 		<td align="center" width="20%">菜名</td>
+				 		<td align="center" width="20%">单价</td>
+				 		<td align="center" width="20%">数量</td>
+				 		<td align="center" width="20%">小计</td>
+				    </tr>
+				    </thead>
+				    <tbody id="tbody-list">  
+                  
+					<tr height="40">
+					 		<td align="center" width="20%">烤乳猪</td>
+					 		<td align="center" width="20%">￥68.0</td>
+					 		<td align="center" width="20%">				 		
+					 		<button class="btn-add"/> <span>1</span>	
+					 		<button class="btn-remove"/>	
+					 		</td>
+					 		<td align="center" width="20%">68.0</td>					 	
+				   </tr>					    
+				    <tr height="40">
+					 		<td align="center" width="20%">红烧鱼</td>
+					 		<td align="center" width="20%">￥54.0</td>
+					 		<td align="center" width="20%">					 		
+					 		<button class="btn-add"/><span >2</span>
+					 		<button class="btn-remove"/>	
+					 		</td>
+					 		<td align="center" width="20%">108.0</td>					 	
+				    </tr>
+				    </tbody>  				    
+				    <tfoot>
+					<tr>
+						<td colspan="6" align="center" >总计:
+							<span style="font-size:25px;">&yen;</span>
+							<label
+								id="counter" style="font-size:25px">176.0</label>
+						</td>
+					</tr>
+				    </tfoot>					
+				</table>
+				
+				    </dd>
+				    <dd><input type="submit" value="下单" class="btn-submit" /></dd>
+			    </dl>
+			</form>
+		</div>
+	</body>
+	
+	<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="js/cookieSet.js" ></script>
+	<script type="text/javascript">	
+		function getList()
+		{
+//			var str = "";  
+//          var data = msg.data;    
+//          for (i in data) {  
+//                      str += "<tr>" +  
+//                      "<td>" + data[i].hotel_seq + "</td>" +  
+//                      "<td>" + data[i].hotel_name + "</td>" +  
+//                      "<td>" + data[i].order_no + "</td>" +  
+//                      "<td>" + data[i].user_phone + "</td>" +  
+//                      "<td>" + data[i].create_time + "</td>" +  
+//                      "<td>" + data[i].user_id + "</td>" +  
+//                      "<td>" + data[i].cellid + "</td>" +  
+//                      "<td>" + data[i].gps_city + "</td>" +  
+//                      "<td>" + data[i].cell_city + "</td>" +  
+//                      "<td>" + data[i].distance + "</td>" +  
+//                      "</tr>";  
+//          }  
+//          $("#tbody-list").innerHTML = str;  
+		}
+	</script>
+</html>

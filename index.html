@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>重庆大酒店在线点餐系统</title>
+		<!-- 内部文档样式表 -->
+		<style>			
+			body {
+				font-family: "宋体";
+				font-size: 12px;				
+				background: url(img/bj2.png)  center center;
+				background-attachment: fixed; 
+				background-repeat:no-repeat;				
+			}
+			
+			#cqu { 
+		float: left;
+		margin-top:150px;
+		margin-left: -40px;		   
+        width: 20px;    
+        font-family:"楷体"    
+         line-height: 24px;    
+         font-size: 20px;  
+          }  
+			
+			#home {
+				float: left;
+				margin-top:40px;
+				margin-left: 40px;
+				width: 50px;
+				height: 60px;
+				background:url(img/home.png);
+				border:none;	
+				outline:none;
+				cursor: pointer;	
+				vertical-align: top;			
+			}
+			
+			#gwc {
+				float: left;
+				margin-top:100px;
+				margin-left: -50px;
+				width: 50px;
+				height: 60px;
+				background:url(img/gwc.png) no-repeat;
+				border:none;
+				outline:none;
+				cursor: pointer;	
+				vertical-align: top;				
+			}
+			
+			#selectTable {
+				float:left;
+				margin-top:40px;
+				margin-left: 500px;
+				position: relative;
+				width: 500px;	
+				height: 400px;		
+				/*border-radius: 10px;
+				background: url(img/kuang.png)  no-repeat ;
+				background-size: 100%;*/				
+			}
+			#selectType {
+				float:right;
+				margin-top:100px;
+				margin-right: 240px;
+				position: relative;
+				width: 500px;	
+				height: 400px;
+				opacity:0 ;									
+			}
+			
+			#orderlist {
+				float:right;
+				margin-top:100px;
+				margin-right: 350px;
+				position: relative;
+				width: 500px;	
+				height: 400px;
+				opacity:0 ;	
+								
+			}
+			
+			#jt {
+				margin-top:40px;
+				margin-left: 400px;  
+				position:absolute;   //必不可少				
+			}
+			
+			#logout {
+				float: right;
+				cursor: pointer;
+				font-size:16px;color: blue;text-decoration:none;
+			}   
+            #logout:hover {color: red;} //鼠标移近				
+						
+		</style>
+	</head>
+	<body>
+		<a id="logout" onclick="logout()"></a>
+		<button id="home" onclick=""></button>
+		<button id="gwc" onclick=""><</button>
+		<div id="cqu">重庆大酒店</div> 
+		<img id="jt" src="img/jt.png" />
+		<div id="selectTable">
+			<iframe frameborder="0" scrolling="no" 
+			width="100%" height="100%"	src="selectTable.html">
+			</iframe>
+		</div>
+		<div id="selectType" >
+			<iframe frameborder="0" scrolling="no" 
+			width="100%" height="100%"	src="selectType.html">
+			</iframe>
+		</div>
+		
+		<div id="orderlist" >
+			<iframe frameborder="0" scrolling="no" 
+			width="100%" height="100%"	src="clientOrderList.html">
+			</iframe>
+		</div>
+		
+	</body>
+	 <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+     <script type="text/javascript" src="js/cookieSet.js" ></script>
+	 <script type="text/javascript">	 	
+	 	$(document).ready(function(){
+         // showType(0);
+	 	 // showOrderlist(0);	
+	 	  login();
+          var user_id=getCookie("user_id");
+          if(user_id==null || user_id=="")
+            window.location.href="login.html"; 
+          else
+            $("#logout").text("欢迎"+getCookie("user_name")+"，请注销");
+         
+        });
+        
+        function logout()
+        {
+        	delCookie("user_id");
+            delCookie("user_name");
+            delCookie("user_password");
+            delCookie("member_level");
+            delCookie("user_phone");
+            window.location.href='login.html'; 
+        }
+        
+        function showType(t){ 
+              $("#jt").animate({
+                left:"+=520px"  
+            },t);
+             $("#selectTable").animate({
+                opacity:0 
+            },t);
+            $("#selectType").animate({
+                opacity:1,
+                top:"-=400px"
+            },t);
+        }
+        
+        function showOrderlist(t){
+             $("#selectType").animate({
+                opacity:0,
+                top:"-=400px"
+            },t);
+            $("#orderlist").animate({
+                opacity:1,
+                top:"-=1000px"
+            },t);
+        }  
+        
+         function login() {
+        	var tel=getCookie("user_phone");
+        	var pwd = getCookie("user_password");
+        	var u="http://192.168.1.196:9090//outerApi/login?user_phone="
+        	+tel+"&user_password="+pwd;
+            $.ajax({
+                type: "POST",//方法类型
+                url: u,//url           
+                contentType: "application/x-www-form-urlencoded",
+                async: false,
+                success: function (r) {
+                	var result = eval( '(' + r + ')' );                
+                    //console.log(r);//打印服务端返回的数据(调试用)
+                    if (result["rspCode"] == "DC00000") {                             
+                     SetCookie("user_id",result["user_id"]);
+                     SetCookie("user_name",result["user_name"]);  
+                     SetCookie("user_password",pwd); 
+                     SetCookie("user_phone",tel); 
+                     SetCookie("member_level",result["member_level"]); 
+                    }else
+                       window.location.href='login.html'; 
+                },
+              error : function() {
+                    alert("异常！");
+                }
+            });
+         }
+     </script>
+     
+
+</html>

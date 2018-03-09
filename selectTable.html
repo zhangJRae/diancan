@@ -131,7 +131,7 @@ function cfNoInit()
 }
 
   $("#cfNo").on("mousedown", function(){
-  	   if($("#cfNo").get(0).options.length>1)
+  	   if(form1.cfNo.options.length>1)
   	     return;
   	   if(form1.cfType.value=="")
   	   {
@@ -169,7 +169,7 @@ function cfNoInit()
                     if (result["rspCode"] == "DC00000") {                     	 
                          var b=eval(result["board_id_set"]);                   
                          for (var i=0;i<b.length;i++)
-                           $("#cfNo").get(0).options.add(new Option(b[i]+"号",b[i]));
+                           form1.cfNo.options.add(new Option(b[i]+"号",b[i]));
                          // $("#cfNo").append('<option value="'+b[i]+'">'+b[i]+'</option>');
                     }else
                       alert(result["rspMsg"]);

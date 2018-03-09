@@ -136,22 +136,22 @@ function cfNoInit()
   	     return;
   	   if(form1.cfType.value=="")
   	   {
-  	   	parent.sweetAlert("请选择中西餐厅！");
+  	   	parent.sweetAlert("提示","请选择中西餐厅！");
   	   	return ;
   	   }
   	   if(form1.cfCount.value==""||form1.cfCount.value==null)
   	   {
-  	   	parent.sweetAlert("请写入用餐人数！");
+  	   	parent.sweetAlert("提示","请写入用餐人数！");
   	   	return ;
   	   }
   	    if(form1.cfDate.value==""||form1.cfDate.value==null)
   	   {
-  	   	parent.sweetAlert("请选择用餐日期！");
+  	   	parent.sweetAlert("提示","请选择用餐日期！");
   	   	return ;
   	   }
   	   if(form1.cfTime.value==""||form1.cfTime.value==null)
   	   {
-  	   	parent.sweetAlert("请选择用餐时段！");
+  	   	parent.sweetAlert("提示","请选择用餐时段！");
   	   	return ;
   	   }  	 
   	   var cfType=form1.cfType.value,cfCount=form1.cfCount.value,
@@ -174,10 +174,10 @@ function cfNoInit()
                            form1.cfNo.options.add(new Option(b[i]+"号",b[i]));
                          // $("#cfNo").append('<option value="'+b[i]+'">'+b[i]+'</option>');
                     }else
-                      parent.sweetAlert(result["rspMsg"]);
+                      parent.sweetAlert("提示",result["rspMsg"]);
                 },
               error : function() {
-                    parent.sweetAlert("异常！");
+                    parent.sweetAlert("提示","异常！");
                 }
             });
         
@@ -187,27 +187,27 @@ function submitForm()
 {
 	if(form1.cfType.value=="")
   	   {
-  	   	parent.sweetAlert("请选择中西餐厅！");
+  	   	parent.sweetAlert("提示","请选择中西餐厅！");
   	   	return ;
   	   }
   	   if(form1.cfCount.value==""||form1.cfCount.value==null)
   	   {
-  	   	parent.sweetAlert("请写入用餐人数！");
+  	   	parent.sweetAlert("提示","请写入用餐人数！");
   	   	return ;
   	   }
   	    if(form1.cfDate.value==""||form1.cfDate.value==null)
   	   {
-  	   	parent.sweetAlert("请选择用餐日期！");
+  	   	parent.sweetAlert("提示","请选择用餐日期！");
   	   	return ;
   	   }
   	   if(form1.cfTime.value==""||form1.cfTime.value==null)
   	   {
-  	   	parent.sweetAlert("请选择用餐时段！");
+  	   	parent.sweetAlert("提示","请选择用餐时段！");
   	   	return ;
   	   } 
   	   if(form1.cfNo.value==""||form1.cfNo.value==null)
   	   {
-  	   	parent.sweetAlert("请选择桌号！");
+  	   	parent.sweetAlert("提示","请选择桌号！");
   	   	return ;
   	   } 
   	   var cfType=form1.cfType.value,cfCount=form1.cfCount.value,
@@ -227,12 +227,12 @@ function submitForm()
                 	var result = eval( '(' + r + ')' );                
                    // console.log(r);//打印服务端返回的数据(调试用)
                     if (result["rspCode"] == "DC00000") {                                      
-                       parent.sweetAlert(result["rspMsg"]);  
+                       parent.sweetAlert("提示",result["rspMsg"]);  
                     }else
-                      parent.sweetAlert(result["rspMsg"]);
+                      parent.sweetAlert("提示",result["rspMsg"]);
                 },
               error : function() {
-                    parent.sweetAlert("异常！");
+                    parent.sweetAlert("提示","异常！");
                 }
             });
 	

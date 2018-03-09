@@ -95,13 +95,13 @@
         function login() {
         	if(form1.tel.value==""||form1.password.value=="")
         	{
-        	  sweetAlert("输入不能为空！");
+        	  sweetAlert("提示","输入不能为空！");
         	  return;
         	}
         	var tel=form1.tel.value;
         	if(!isPoneAvailable(tel))
         	{
-        	  sweetAlert("手机号无效！");
+        	  sweetAlert("提示","手机号无效！");
         	  return;
         	}
         	var pwd = hex_sha1(form1.password.value);
@@ -118,7 +118,7 @@
                 	var result = eval( '(' + r + ')' );                
                     //console.log(r);//打印服务端返回的数据(调试用)
                     if (result["rspCode"] == "DC00000") {
-                        sweetAlert("登录成功");                               
+                        sweetAlert("提示","登录成功");                               
                      SetCookie("user_id",result["user_id"]);
                      SetCookie("user_name",result["user_name"]);  
                      SetCookie("user_password",pwd); 
@@ -126,10 +126,10 @@
                      SetCookie("member_level",result["member_level"]);
                      window.location.href='index.html';  
                     }else
-                      sweetAlert(result["rspMsg"]);
+                      sweetAlert("提示",result["rspMsg"]);
                 },
               error : function() {
-                    sweetAlert("异常！");
+                    sweetAlert("提示","异常！");
                 }
             });
         

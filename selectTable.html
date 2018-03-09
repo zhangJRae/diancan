@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+ 
 		<meta charset="UTF-8">
 		<title>重庆大酒店在线点餐系统</title>
 		<!-- 内部文档样式表 -->
@@ -135,22 +136,22 @@ function cfNoInit()
   	     return;
   	   if(form1.cfType.value=="")
   	   {
-  	   	alert("请选择中西餐厅！");
+  	   	parent.sweetAlert("请选择中西餐厅！");
   	   	return ;
   	   }
   	   if(form1.cfCount.value==""||form1.cfCount.value==null)
   	   {
-  	   	alert("请写入用餐人数！");
+  	   	parent.sweetAlert("请写入用餐人数！");
   	   	return ;
   	   }
   	    if(form1.cfDate.value==""||form1.cfDate.value==null)
   	   {
-  	   	alert("请选择用餐日期！");
+  	   	parent.sweetAlert("请选择用餐日期！");
   	   	return ;
   	   }
   	   if(form1.cfTime.value==""||form1.cfTime.value==null)
   	   {
-  	   	alert("请选择用餐时段！");
+  	   	parent.sweetAlert("请选择用餐时段！");
   	   	return ;
   	   }  	 
   	   var cfType=form1.cfType.value,cfCount=form1.cfCount.value,
@@ -160,7 +161,8 @@ function cfNoInit()
         	+"&board_type="+cfType+"&order_people_number="+cfCount;
             $.ajax({
                 type: "POST",//方法类型
-                url: u,//url                                    
+                url: u,//url  
+                timeout : 1000, 
                 contentType: "application/x-www-form-urlencoded",
                 async: false,
                 success: function (r) {
@@ -172,10 +174,10 @@ function cfNoInit()
                            form1.cfNo.options.add(new Option(b[i]+"号",b[i]));
                          // $("#cfNo").append('<option value="'+b[i]+'">'+b[i]+'</option>');
                     }else
-                      alert(result["rspMsg"]);
+                      parent.sweetAlert(result["rspMsg"]);
                 },
               error : function() {
-                    alert("异常！");
+                    parent.sweetAlert("异常！");
                 }
             });
         
@@ -185,27 +187,27 @@ function submitForm()
 {
 	if(form1.cfType.value=="")
   	   {
-  	   	alert("请选择中西餐厅！");
+  	   	parent.sweetAlert("请选择中西餐厅！");
   	   	return ;
   	   }
   	   if(form1.cfCount.value==""||form1.cfCount.value==null)
   	   {
-  	   	alert("请写入用餐人数！");
+  	   	parent.sweetAlert("请写入用餐人数！");
   	   	return ;
   	   }
   	    if(form1.cfDate.value==""||form1.cfDate.value==null)
   	   {
-  	   	alert("请选择用餐日期！");
+  	   	parent.sweetAlert("请选择用餐日期！");
   	   	return ;
   	   }
   	   if(form1.cfTime.value==""||form1.cfTime.value==null)
   	   {
-  	   	alert("请选择用餐时段！");
+  	   	parent.sweetAlert("请选择用餐时段！");
   	   	return ;
   	   } 
   	   if(form1.cfNo.value==""||form1.cfNo.value==null)
   	   {
-  	   	alert("请选择桌号！");
+  	   	parent.sweetAlert("请选择桌号！");
   	   	return ;
   	   } 
   	   var cfType=form1.cfType.value,cfCount=form1.cfCount.value,
@@ -217,19 +219,20 @@ function submitForm()
         	+"&board_id="+cfNo;
             $.ajax({
                 type: "POST",//方法类型
-                url: u,//url                                    
+                url: u,//url  
+                timeout : 1000, 
                 contentType: "application/x-www-form-urlencoded",
                 async: false,
                 success: function (r) {
                 	var result = eval( '(' + r + ')' );                
                    // console.log(r);//打印服务端返回的数据(调试用)
                     if (result["rspCode"] == "DC00000") {                                      
-                       alert(result["rspMsg"]);  
+                       parent.sweetAlert(result["rspMsg"]);  
                     }else
-                      alert(result["rspMsg"]);
+                      parent.sweetAlert(result["rspMsg"]);
                 },
               error : function() {
-                    alert("异常！");
+                    parent.sweetAlert("异常！");
                 }
             });
 	

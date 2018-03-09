@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		 <script src="js/sweet-alert.min.js"></script>
+         <link rel="stylesheet" href="css/sweet-alert.css">
 		<meta charset="UTF-8">
 		<title>重庆大酒店在线点餐系统</title>
 		<!-- 内部文档样式表 -->
@@ -8,14 +10,13 @@
 			body {
 				font-family: "宋体";
 				font-size: 12px;				
-				background: url(img/bj.png)  center center;
+				background: url(img/bj.png)  top center;
 				background-attachment: fixed; 
-				background-repeat:no-repeat;
-				
+				background-repeat:no-repeat;				
 			}
 			#login {
 				float:right;
-				margin-top:40px;
+				margin-top:100px;
 				margin-right: 300px;
 				position: relative;
 				width: 360px;
@@ -94,13 +95,13 @@
         function login() {
         	if(form1.tel.value==""||form1.password.value=="")
         	{
-        	  alert("输入不能为空！");
+        	  sweetAlert("输入不能为空！");
         	  return;
         	}
         	var tel=form1.tel.value;
         	if(!isPoneAvailable(tel))
         	{
-        	  alert("手机号无效！");
+        	  sweetAlert("手机号无效！");
         	  return;
         	}
         	var pwd = hex_sha1(form1.password.value);
@@ -117,7 +118,7 @@
                 	var result = eval( '(' + r + ')' );                
                     //console.log(r);//打印服务端返回的数据(调试用)
                     if (result["rspCode"] == "DC00000") {
-                        alert("登录成功");                               
+                        sweetAlert("登录成功");                               
                      SetCookie("user_id",result["user_id"]);
                      SetCookie("user_name",result["user_name"]);  
                      SetCookie("user_password",pwd); 
@@ -125,10 +126,10 @@
                      SetCookie("member_level",result["member_level"]);
                      window.location.href='index.html';  
                     }else
-                      alert(result["rspMsg"]);
+                      sweetAlert(result["rspMsg"]);
                 },
               error : function() {
-                    alert("异常！");
+                    sweetAlert("异常！");
                 }
             });
         

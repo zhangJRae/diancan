@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<script src="js/sweet-alert.min.js"></script>
+        <link rel="stylesheet" href="css/sweet-alert.css">
 		<meta charset="UTF-8">
 		<title>重庆大酒店在线点餐系统</title>
 		<!-- 内部文档样式表 -->
-		<style>			
+		<style>		
 			body {
 				font-family: "宋体";
 				font-size: 12px;				
-				background: url(img/bj2.png)  center center;
+				background: url(img/bj2.png)  top center;
 				background-attachment: fixed; 
 				background-repeat:no-repeat;				
 			}
@@ -51,8 +53,8 @@
 			
 			#selectTable {
 				float:left;
-				margin-top:40px;
-				margin-left: 500px;
+				margin-top:100px;
+				margin-left: 550px;
 				position: relative;
 				width: 500px;	
 				height: 400px;		
@@ -62,7 +64,7 @@
 			}
 			#selectType {
 				float:right;
-				margin-top:100px;
+				margin-top:60px;
 				margin-right: 240px;
 				position: relative;
 				width: 500px;	
@@ -72,7 +74,7 @@
 			
 			#orderlist {
 				float:right;
-				margin-top:100px;
+				margin-top:60px;
 				margin-right: 350px;
 				position: relative;
 				width: 500px;	
@@ -82,7 +84,7 @@
 			}
 			
 			#jt {
-				margin-top:40px;
+				margin-top:100px;
 				margin-left: 400px;  
 				position:absolute;   //必不可少				
 			}
@@ -146,6 +148,7 @@
         }
         
         function showType(t){ 
+        	t=t*1000;
               $("#jt").animate({
                 left:"+=520px"  
             },t);
@@ -159,6 +162,7 @@
         }
         
         function showOrderlist(t){
+        	t=t*1000;
              $("#selectType").animate({
                 opacity:0,
                 top:"-=400px"
@@ -192,7 +196,7 @@
                        window.location.href='login.html'; 
                 },
               error : function() {
-                    alert("异常！");
+                    sweetAlert("异常！");
                 }
             });
          }

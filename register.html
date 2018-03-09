@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<script src="js/sweet-alert.min.js"></script>
+         <link rel="stylesheet" href="css/sweet-alert.css">
 		<meta charset="UTF-8">
 		<title>重庆大酒店在线点餐系统</title>
 		<!-- 内部文档样式表 -->
@@ -8,14 +10,14 @@
 			body {
 				font-family: "宋体";
 				font-size: 12px;				
-				background: url(img/bj.png)  center center;
+				background: url(img/bj.png)  top center;
 				background-attachment: fixed; 
 				background-repeat:no-repeat;
 				
 			}
 			#register {
 				float:right;
-				margin-top:40px;
+				margin-top:100px;
 				margin-right: 300px;
 				position: relative;
 				width: 360px;
@@ -89,19 +91,19 @@
         function register() {
         	if(form1.userName.value==""||form1.tel.value==""||form1.password.value==""||form1.password2.value=="")
         	{
-        	  alert("输入不能为空！");
+        	  sweetAlert("输入不能为空！");
         	  return;
         	}
         	if(form1.password.value!=form1.password2.value)
         	{
-        	  alert("两次输入密码不一致！");
+        	  sweetAlert("两次输入密码不一致！");
         	  return;
         	}
         	var name=form1.userName.value;
         	var tel=form1.tel.value;
         	if(!isPoneAvailable(tel))
         	{
-        	  alert("手机号无效！");
+        	  sweetAlert("手机号无效！");
         	  return;
         	}
         	var pwd = hex_sha1(form1.password.value);	
@@ -116,13 +118,13 @@
                 	var result = eval( '(' + r + ')' );               	
                    // console.log(r);//打印服务端返回的数据(调试用)
                     if (result["rspCode"] == "DC00000") {
-                        alert("注册成功");
+                        sweetAlert("注册成功");
                         window.location.href='login.html';  
                     }else
-                      alert(result["rspMsg"]);
+                      sweetAlert(result["rspMsg"]);
                 },
               error : function() {
-                    alert("异常！");
+                    sweetAlert("异常！");
                 }
             });
         

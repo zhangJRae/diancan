@@ -1,0 +1,168 @@
+@charset "utf-8";
+@import url(http://weloveiconfonts.com/api/?family=fontawesome);
+
+[class*="fontawesome-"]:before {
+  font-family: 'FontAwesome', sans-serif;
+}
+
+body {
+  background: url(../img/back_img.png);
+  color: #606468;
+  font: 87.5%/1.5em 'Open Sans', sans-serif;
+  margin: 0;
+}
+h1{
+	font-family: "微软雅黑";
+	font-size: 20px;
+	padding-left: 130px;
+	padding-bottom:10px;
+}
+input {
+  border: none;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5em;
+  padding: 0;
+  -webkit-appearance: none;
+}
+
+p {
+  line-height: 1.5em;
+}
+
+after { clear: both; }
+
+#login {
+  margin: 40px auto;
+  width: 320px;
+}
+
+#login form {
+  margin-top:150px ;
+  margin-left: 100px;
+  padding: 20px 20px 20px 20px;
+  width: 100%;
+  border-radius: 5px;
+  background: transparent;
+
+}
+      	
+#login form span {
+  background-color: transparents
+  border-radius: 3px 0px 0px 3px;
+  border-right: 3px solid #434a52;
+  color: #A9A9A9;
+  display: block;
+  float: left;
+  line-height: 50px;
+  text-align: center;
+  width: 50px;
+  height: 50px;
+}
+
+#login form input[type="text"] {
+  background-color: transparent;
+  border-radius: 0px 3px 3px 0px;
+  color: #a9a9a9;
+  margin-bottom: 1em;
+  padding: 0 16px;
+  width: 235px;
+  height: 50px;
+}
+
+#login form input[type="password"] {
+  background-color: transparent;
+  border-radius: 0px 3px 3px 0px;
+  color: #a9a9a9;
+  margin-bottom: 1em;
+  padding: 0 16px;
+  width: 235px;
+  height: 50px;
+}
+
+
+#login form input[type="button"] {
+	padding-left:35px;
+	padding-right: 50px;
+	margin-left: 40px;
+  background: transparent;
+  border: 0;
+  width: 100px;
+  height: 40px;
+  border-radius: 3px;
+  color:darkgray;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+#login form input[type="button"]:hover {
+  background: #A9A9A9;
+  color:white;
+}
+
+
+#register {
+  margin: 40px auto;
+  width: 320px;
+}
+
+#register form {
+  margin-top:150px ;
+  margin-left: 100px;
+  padding: 20px 20px 20px 20px;
+  width: 100%;
+  border-radius: 5px;
+  background: transparent;
+
+}
+      	
+#register form span {
+  background-color: transparents
+  border-radius: 3px 0px 0px 3px;
+  border-right: 3px solid #434a52;
+  color: #A9A9A9;
+  display: block;
+  float: left;
+  line-height: 50px;
+  text-align: center;
+  width: 50px;
+  height: 40px;
+}
+
+#register form input[type="text"] {
+  background-color: transparent;
+  border-radius: 0px 3px 3px 0px;
+  color: #a9a9a9;
+  margin-bottom: 1em;
+  padding: 0 16px;
+  width: 235px;
+  height: 40px;
+}
+
+#register form input[type="password"] {
+  background-color: transparent;
+  border-radius: 0px 3px 3px 0px;
+  color: #a9a9a9;
+  margin-bottom: 1em;
+  padding: 0 16px;
+  width: 235px;
+  height: 40px;
+}
+
+
+ input[type="button"] {
+	padding-left:35px;
+	padding-right: 50px;
+	margin-left: 125px;
+  background: transparent;
+  border: 0;
+  width: 100px;
+  height: 40px;
+  border-radius: 3px;
+  color:darkgray;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+ input[type="button"]:hover {
+  background: #A9A9A9;
+  color:white;
+}

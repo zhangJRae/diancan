@@ -1,51 +1,4 @@
-﻿<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<title>重庆大酒店在线点餐系统</title>
-		<!-- 内部文档样式表 -->
-		<style>
-			/*body {
-				font-family: "宋体";
-				font-size: 12px;				
-				background: url(img/bj2.png)  center center;
-				background-attachment: fixed; 
-				background-repeat:no-repeat;			
-			}*/
-		/*	
-			#cqu { 
-		float: left;
-		margin-top:150px;
-		margin-left: -40px;		   
-        width: 20px;    
-        font-family:"楷体";    
-         line-height: 24px;    
-         font-size: 20px;  
-          }  
-			
-			#home {
-				float: left;
-				margin-top:40px;
-				margin-left: 40px;
-				width: 50px;
-				height: 60px;
-				background:url(img/home.png);
-				border:none;	
-				outline:none;
-				vertical-align: top;			
-			}
-			
-			#gwc {
-				float: left;
-				margin-top:100px;
-				margin-left: -50px;
-				width: 50px;
-				height: 60px;
-				background:url(img/gwc.png) no-repeat;
-				border:none;
-				outline:none;
-				vertical-align: top;				
-			}*/
+﻿<style>
 			
 			#orderlist {
 				/*float:right;
@@ -83,21 +36,22 @@
 				padding-left: 5px; /* 左部填充 */
 				line-height: 26px;
 			}
+			
 			.btn-submit {
-				width: 270px;
-				height: 35px;
-				line-height: 30px;
+				 width: 150px;
+                 height: 40px;
 				margin-top: 10px;
 				margin-bottom: 10px;
-				/*background-color: black;*/
-				opacity:0.7;
-				border: 0px;
-				color: black;
-				cursor: pointer;
-				
+				background: transparent;
+                border: 0;
+                border-radius: 3px;
+                color:darkgray;
+                cursor: pointer;
+                transition: background 0.3s ease-in-out;				
 			}
 			.btn-submit:hover {
-				opacity: 0.8;
+				 background: #A9A9A9;
+                 color:white;
 			}
 			
 			.btn-add {
@@ -131,16 +85,11 @@
 				margin-left: 20px;
 			}
 			
-		</style>
-	</head>
-	<body>
-		<!--<input type="button" id="home"></input>
-		<input type="button" id="gwc"></input>
-		<div id="cqu">重庆大酒店</div> -->
+		</style>	
 		<div id="orderlist">			
 			<form id="form1" name="form1" method="get" action="#">
 				<dl>
-				    <dt>已点清单列表</dt>				    
+				    <dt>订单列表</dt>				    
 				    <dd>
 				    <table align="center" width="100%">
 				    <thead>	
@@ -184,13 +133,11 @@
 				</table>
 				
 				    </dd>
-				    <dd><input type="submit" value="下单" class="btn-submit" /></dd>
+				    <dd><input type="button" value="下单" class="btn-submit" /></dd>
 			    </dl>
 			</form>
 		</div>
-	</body>
-	
-	<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="js/cookieSet.js" ></script>
 	<script type="text/javascript">	
 		function getList()

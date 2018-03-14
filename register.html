@@ -1,109 +1,51 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<script src="js/sweet-alert.min.js"></script>
-         <link rel="stylesheet" href="css/sweet-alert.css">
-		<meta charset="UTF-8">
-		<title>重庆大酒店在线点餐系统</title>
-		<!-- 内部文档样式表 -->
-		<style>
-			body {
-				font-family: "宋体";
-				font-size: 12px;				
-				background: url(img/bj.png)  top center;
-				background-attachment: fixed; 
-				background-repeat:no-repeat;
-				
-			}
-			#register {
-				float:right;
-				margin-top:100px;
-				margin-right: 300px;
-				position: relative;
-				width: 360px;
-				/*边框样式*/
-				/*border: solid 10px #FFF;*/
-				border-radius: 10px;
-				/*边界样式*/
-				/*margin: 200px auto 0px;*/
-				/*background-color: rgba(255,255,255, 0.7);*/
-			}
-			#register dl dt {
-				
-				font-size: 16px;
-				font-weight: bold;
-				text-align: center;
-				line-height: 50px;
-				color: black;				
-				
-				
-			}
-			#register dl dt span {
-				letter-spacing: 2px;
-			}
-			#register dl dd {
-				margin: 5px 0px;
-				text-align: center;
-			}
-			.input-size {
-				width: 260px;
-				height: 26px;
-				padding-left: 5px; /* 左部填充 */
-				line-height: 26px;
-			}
-			.btn-submit {
-				width: 270px;
-				height: 35px;
-				line-height: 30px;
-				margin-top: 10px;
-				margin-bottom: 10px;
-				/*background-color: black;*/
-				opacity:0.7;
-				border: 0px;
-				color: black;
-				cursor: pointer;
-				
-			}
-			.btn-submit:hover {
-				/*background-color: lightgreen;*/
-				opacity: 0.8;
-			}
-		</style>
-	</head>
-	<body>
-		<div id="register">
-			<form id="form1" name="form1" method="POST" action="#">
-				<dl>
-				    <dt>重庆大酒店<span>在线点餐系统</span></dt>		    
-				    <dd><input type="text" name="userName"  placeholder="请输入用户名" required="required" autofocus="autofocus" class="input-size" /></dd>
-				    <dd><input type="text" name="tel"  placeholder="请输入手机号" required="required" autofocus="autofocus" class="input-size" /></dd>
-				    <dd><input type="password" name="password"  placeholder="请输入密码" required="required" class="input-size" /></dd>
-				    <dd><input type="password" name="password2"  placeholder="请确认密码" required="required" class="input-size" /></dd>
-				    <dd></dd>
-				    <dd><input type="button" onclick="register()" value="注册" class="btn-submit" /></dd>
-				</dl>
-			</form>
-		</div>
-	</body>
-	
-	 <script type="text/javascript">
-	
-        function register() {
+<html lang="en" >
+
+<head>
+	 <script src="js/sweet-alert.min.js"></script>
+   <link rel="stylesheet" href="css/sweet-alert.css">
+  <meta charset="UTF-8">
+  <title>重庆大酒店在线点餐系统</title>     
+      <link rel="stylesheet" href="css/style.css">      
+</head>
+
+<body>
+    <div id="register">
+    	
+      <form name='form1'>
+      <!--	<h1>注册</h1>-->
+        <span class="fontawesome-user"></span>
+          <input type="text" name="userName" id="user" placeholder="用户名">
+        <span class="fontawesome-mobile-phone"></span>
+          <input type="text" name="tel" id="tel" placeholder="手机号">  
+       
+        <span class="fontawesome-lock"></span>
+          <input type="password" name="password" id="pass" placeholder="密码">
+          
+        <span class="fontawesome-lock"></span>
+          <input type="password" name="password2" id="pass2" placeholder="确认密码">
+        <input type="button" onclick="register()" value="注册">
+
+</form>
+</body>
+
+	 <script type="text/javascript">	 	
+	 	function register() {
         	if(form1.userName.value==""||form1.tel.value==""||form1.password.value==""||form1.password2.value=="")
         	{
-        	  sweetAlert("提示","输入不能为空！");
+        	  sweetAlert("提示","输入不能为空！","warning");
         	  return;
         	}
         	if(form1.password.value!=form1.password2.value)
         	{
-        	  sweetAlert("提示","两次输入密码不一致！");
+        	  sweetAlert("提示","两次输入密码不一致！","warning");
         	  return;
         	}
         	var name=form1.userName.value;
         	var tel=form1.tel.value;
         	if(!isPoneAvailable(tel))
         	{
-        	  sweetAlert("提示","手机号无效！");
+        	  sweetAlert("提示","手机号无效！","warning");
         	  return;
         	}
         	var pwd = hex_sha1(form1.password.value);	
@@ -111,26 +53,32 @@
         	+name+"&user_phone="+tel+"&user_password="+pwd;
             $.ajax({
                 type: "POST",//方法类型
-                url: u,//url                   
+                url: u,//url   
+                timeout : 1000, 
                 contentType: "application/x-www-form-urlencoded",
                 async: false,
                 success: function (r) {
                 	var result = eval( '(' + r + ')' );               	
-                   // console.log(r);//打印服务端返回的数据(调试用)
                     if (result["rspCode"] == "DC00000") {
-                        sweetAlert("提示","注册成功");
-                        window.location.href='login.html';  
+                    	swal({ 
+                     title: "注册成功！", 
+                     type: "success",
+                     text: "可以开始登录了。", 
+                     timer: 2000, 
+                     confirmButtonColor: "#FFFFFF",                
+                   }); 
+                    setTimeout('window.location.href="login.html";',2000);  
                     }else
-                      sweetAlert("提示",result["rspMsg"]);
+                      sweetAlert("提示",result["rspMsg"],"warning");
                 },
               error : function() {
-                    sweetAlert("提示","异常！");
+                    sweetAlert("提示","异常！","warning");
                 }
             });
         
         }
         
-         function isPoneAvailable(str) {  
+       function isPoneAvailable(str) {  
           var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;  
           if (!myreg.test(str)) {  
               return false;  
@@ -140,6 +88,8 @@
       }
         
     </script>
-    <script type="text/javascript"  src="js/sha1.js"></script>
-    <script type="text/javascript"  src="js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="js/sha1.js"></script>
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/cookieSet.js" ></script>
+
 </html>

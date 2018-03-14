@@ -33,7 +33,7 @@
 			#cfType dl dt {
 			
 				font-size: 16px;
-				font-weight: bold;
+				font-weight: 400;
 				text-align: center;
 				line-height: 50px;
 				color: black;				
@@ -46,7 +46,7 @@
 			}
 			#cfType dl dd {
 				font-size: 16px;
-				font-weight: bold;
+				font-weight: 400;
 				margin: 5px 0px;
 				text-align: center;
 				
@@ -73,25 +73,19 @@
 			.btn-submit:hover {
 				/*background-color: lightgreen;*/
 				opacity: 0.8;
-			}
-			/*.point{
-				background: url(img/point.png);
-			
-			}*/
-			.caixi { 				   
-           width: 20px;    
-          font-family:"楷体"    
-          line-height: 24px;    
-          font-size: 20px;  
+			}			
+		a {
+		  width: 40px;              
+          line-height: 60px;    
+          font-size: 40px;  
           float:left;
           text-align:center;
           margin-left: 30px;
-          } 
-       
-			
-		a {font-size:16px;color: black;text-decoration:none;}   
-        /*a:link {text-decoration:none;} //未访问
-        a:active { } //激活 */  
+		  color: black;
+		  text-decoration:none;
+		  cursor: pointer;
+		  }   
+
         a:hover {color: red;} //鼠标移近		
 
 		</style>
@@ -100,29 +94,67 @@
 		<div id="cfType">
 		
 			<form id="form1" name="form1" method="get" action="#">
-				<dl>
-				   <!-- <dt>请选择菜系</dt>-->
-				    <dd><a class="caixi" href="#" >
-				    	<img src="img/point.png" />
-				    	川菜</a></dd>
-				    	
-				      <dd><a class="caixi" href="#" >
-				    	<img src="img/point.png" />
-				    	粤菜</a></dd>	
-				    	
-				     <dd><a class="caixi" href="#" >
-				    	<img src="img/point.png" />
-				    	湘菜</a></dd>
-				    	
-				    	 <dd><a class="caixi" href="#" >
-				    	<img src="img/point.png" />
-				    	鲁菜</a></dd>
+				<dl id="caixi">				   
 			    </dl>
 			</form>
 		</div>
-	  
+<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>	  
 <script>   
-
+$(document).ready(function(){	
+  $.ajax({
+                type: "POST",//方法类型
+                url: "http://192.168.1.196:9090//outerApi/getAllFoodType",//url  
+                timeout : 1000, 
+                contentType: "application/x-www-form-urlencoded",
+                async: false,
+                success: function (r) {
+                	var result = eval( '(' + r + ')' );                              
+                    if (result["rspCode"] == "DC00000") {                     	 
+                       var fs=eval(result["food_type"]);                   
+                       for (var i=0;i<fs.length;i++)
+                       {
+                       	var f=eval(fs[i]);
+                       	addType(f.food_id,f.food_name);    
+                       }
+                                           
+                    }else
+                      parent.sweetAlert("提示",result["rspMsg"],"warning");
+                },
+              error : function() {
+                    //parent.sweetAlert("提示","异常！","warning");
+                }
+            });
+         
+ });
+ function addType(id,name)
+ {
+ 	$("#caixi").append('<dd><a onclick="selectType('+id
+ 	+')" ><img src="img/point.png" />'+name+'</a></dd>');	
+ }
+ 
+ function selectType(type)
+ {
+ 	parent.location.href='caipin.html?type='+type; 
+// 	$.ajax({
+//              type: "POST",//方法类型
+//              url: "http://192.168.1.196:9090//outerApi/getFoodByType?food_type_id="+type,//url  
+//              timeout : 1000, 
+//              contentType: "application/x-www-form-urlencoded",
+//              async: false,
+//              success: function (r) {
+//              	var result = eval( '(' + r + ')' );                
+//                  console.log(r);//打印服务端返回的数据(调试用)
+//                  if (result["rspCode"] == "DC00000") {  
+//                  	window.location.href='#'; 
+//                  }else
+//                    parent.sweetAlert("提示",result["rspMsg"],"warning");
+//              },
+//            error : function() {
+//                  //parent.sweetAlert("提示","异常！","warning");
+//              }
+//          });
+ }
+ 
 </script>  
 </body>
 </html>

@@ -53,30 +53,32 @@
 			
 			#selectTable {
 				float:left;
-				margin-top:100px;
+				margin-top:80px;
 				margin-left: 550px;
 				position: relative;
 				width: 500px;	
-				height: 400px;		
+				height: 600px;		
 				/*border-radius: 10px;
 				background: url(img/kuang.png)  no-repeat ;
 				background-size: 100%;*/				
 			}
 			#selectType {
-				float:right;
-				margin-top:60px;
-				margin-right: 240px;
-				position: relative;
+				float:left;
+				/*margin-top:60px;
+				margin-right: 240px;*/
+				margin:7% 0 0 40% ;
+                *margin:7% 0 0 40% ; 
+				position:absolute;
 				width: 500px;	
-				height: 400px;
+				height: 800px;
 				opacity:0 ;									
 			}
 			
 			#orderlist {
 				float:right;
-				margin-top:60px;
+				margin-top:160px;
 				margin-right: 350px;
-				position: relative;
+				position:absolute;
 				width: 500px;	
 				height: 400px;
 				opacity:0 ;	
@@ -84,34 +86,54 @@
 			}
 			
 			#jt {
-				margin-top:100px;
-				margin-left: 400px;  
+				float: right;
+				margin:5% 0 0 30% ;
+                *margin:5% 0 0 30% ; 
 				position:absolute;   //必不可少				
 			}
 			
-			#logout {
+			#myTab {
 				float: right;
 				cursor: pointer;
-				font-size:16px;color: blue;text-decoration:none;
+				font-size:16px;
+				border:none;	
+				outline:none;
 			}   
-            #logout:hover {color: red;} //鼠标移近				
+			#myTab li{
+				text-align: center;
+			} 				
 						
 		</style>
 	</head>
 	<body>
-		<a id="logout" onclick="logout()"></a>
-		<button id="home" onclick=""></button>
+		
+	<ul id="myTab" class="nav nav-tabs">	
+	<li class="dropdown">
+		<a href="#" id="welcome" class="dropdown-toggle" 
+		   data-toggle="dropdown">
+			欢迎您，<span id="username"></span>&nbsp;&nbsp;<b class="caret"></b>
+		</a>
+		<ul class="dropdown-menu" role="menu" aria-labelledby="welcome">
+			<li><a href="#" tabindex="-1" data-toggle="tab">个人中心</a></li>
+			<li class="divider"></li>
+			<li><a onclick="logout()" tabindex="-1" data-toggle="tab">退出登录</a></li>
+		</ul>
+	</li>
+   </ul>	
+		<button id="home" onclick="showType(2)"></button>
 		<button id="gwc" onclick=""><</button>
 		<div id="cqu">重庆大酒店</div> 
 		<img id="jt" src="img/jt.png" />
-		<div id="selectTable">
-			<iframe frameborder="0" scrolling="no" 
-			width="100%" height="100%"	src="selectTable.html">
-			</iframe>
-		</div>
+	
 		<div id="selectType" >
 			<iframe frameborder="0" scrolling="no" 
 			width="100%" height="100%"	src="selectType.html">
+			</iframe>
+		</div>
+		
+		<div id="selectTable">
+			<iframe frameborder="0" scrolling="no" 
+			width="100%" height="100%"	src="selectTable.html">
 			</iframe>
 		</div>
 		
@@ -121,19 +143,22 @@
 			</iframe>
 		</div>
 		
-	</body>
-	 <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+	</body>	
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
      <script type="text/javascript" src="js/cookieSet.js" ></script>
-	 <script type="text/javascript">	 	
-	 	$(document).ready(function(){	 		
-         // showType(0);
+	 <script type="text/javascript">	
+	 	$(document).ready(function(){
+          //showType(0);
 	 	 // showOrderlist(0);	
+	 	 $("#selectType").hide();
 	 	  login();
           var user_id=getCookie("user_id");
           if(user_id==null || user_id=="")
             window.location.href="login.html"; 
           else
-            $("#logout").text("欢迎"+getCookie("user_name")+"，请注销");
+            $("#username").text(getCookie("user_name"));
          
         });
         
@@ -152,12 +177,13 @@
               $("#jt").animate({
                 left:"+=520px"  
             },t);
+            $("#selectType").show();
              $("#selectTable").animate({
                 opacity:0 
             },t);
             $("#selectType").animate({
                 opacity:1,
-                top:"-=400px"
+               // top:"-=400px"
             },t);
         }
         
@@ -196,10 +222,11 @@
                        window.location.href='login.html'; 
                 },
               error : function() {
-                    sweetAlert("提示","异常！");
+                    sweetAlert("提示","异常！", "warning");
                 }
             });
          }
+        
      </script>
      
 

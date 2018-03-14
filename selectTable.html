@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
-	<head>
- 
+	<head> 
 		<meta charset="UTF-8">
 		<title>重庆大酒店在线点餐系统</title>
 		<!-- 内部文档样式表 -->
@@ -51,28 +50,29 @@
 				margin: 5px 0px;
 				text-align: center;
 			}
+						
 			.input-size {
 				width: 260px;
 				height: 26px;
 				padding-left: 5px; /* 左部填充 */
 				line-height: 26px;
 			}
+			
 			.btn-submit {
-				width: 270px;
-				height: 35px;
-				line-height: 30px;
+				 width: 150px;
+                 height: 40px;
 				margin-top: 10px;
 				margin-bottom: 10px;
-				/*background-color: black;*/
-				opacity:0.7;
-				border: 0px;
-				color: black;
-				cursor: pointer;
-				
+				background: transparent;
+                border: 0;
+                border-radius: 3px;
+                color:darkgray;
+                cursor: pointer;
+                transition: background 0.3s ease-in-out;				
 			}
 			.btn-submit:hover {
-				/*background-color: lightgreen;*/
-				opacity: 0.8;
+				 background: #A9A9A9;
+                 color:white;
 			}
 		</style>
 	</head>
@@ -85,21 +85,21 @@
 				    <input type="radio" name="cfType" value="2"> 西餐厅</dd>
 				    <br />
 				    <dd>
-				       人数：<select name="cfCount" id="cfCount"  required="required"  class="input-size">
+				       人数：<select name="cfCount" id="cfCount"  required="required"  class="myselect" style="width: 200px;">
 				    	<option value="">请选择用餐人数</option> 
 				    	<option value="2">2人</option> 
 				    	<option value="4">4人</option> 
 				    	<option value="10">10人</option> 
 				    </select>	
 				    </dd>
-				    <dd>日期：<input name="cfDate" id="seldate" class="input-size" placeholder="请选择用餐日期" />  </dd>
-				     <dd>时段：<select name="cfTime" id="cfTime" required="required"  class="input-size">
+				    <dd>日期：<input name="cfDate" id="seldate" class="sod_select" placeholder="请选择用餐日期" />  </dd>
+				     <dd>时段：<select name="cfTime" id="cfTime" required="required"  class="myselect">
 				    	<option value="">请选择用餐时段</option> 
 				    	<option value="0">上午</option> 
 				    	<option value="1">中午</option> 
 				    	<option value="2">晚上</option> 
 				    </select></dd>
-				    <dd>桌号：<select name="cfNo" id="cfNo" required="required"  class="input-size">
+				    <dd>桌号：<select name="cfNo" id="cfNo" required="required"  class="myselect">
 				    	<option value="">请选择用餐桌号</option>  
 				    </select></dd>
 				    <dd></dd>
@@ -107,8 +107,12 @@
 			    </dl>
 			</form>
 		</div>
-<script type="text/javascript" src="js/laydate.js"></script>  
-<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>		
+<script type="text/javascript" src="js/laydate.js"></script> 
+<script type="text/javascript" src="js/cookieSet.js" ></script>
+<script type="text/javascript" src="Select-or-Die/js/selectordie.min.js" ></script>
+<link rel="stylesheet" href="Select-or-Die/css/selectordie.css" />
+<link rel="stylesheet" href="Select-or-Die/css/selectordie_theme_02.css" />
 <script>   
 //执行一个laydate实例
 laydate.render({
@@ -118,10 +122,18 @@ laydate.render({
   done: cfNoInit
 }); 
 
-$(document).ready(function(){	
+$(document).ready(function(){
+   $("#cfCount").selectOrDie({
+        onChange: cfNoInit
+    });
+   $("#cfTime").selectOrDie({
+        onChange: cfNoInit
+    });
+   $("#cfNo").selectOrDie();
+   md_sele();
   $('input').change(cfNoInit);
-  $("#cfCount").change(cfNoInit);
-  $("#cfTime").change(cfNoInit);
+ // $("#cfCount").change(cfNoInit);
+  //$("#cfTime").change(cfNoInit);
          
  });
  
@@ -129,35 +141,41 @@ function cfNoInit()
 {
    $("#cfNo").empty();
    $("#cfNo").get(0).options.add(new Option("请选择用餐桌号",""));
+   $("div.sod_list").eq(2).empty();
+   $("div.sod_list").eq(2).append('<ul><li class="selected active" title="请选择用餐桌号" data-value="">请选择用餐桌号</li></ul>');
+   $("div.sod_label").eq(2).html('请选择用餐桌号');
+   
 }
-
-  $("#cfNo").on("mousedown", function(){
+function md_sele()
+{
+  $("div.sod_select").eq(2).on("mousedown", function(){
   	   if(form1.cfNo.options.length>1)
   	     return;
   	   if(form1.cfType.value=="")
   	   {
-  	   	parent.sweetAlert("提示","请选择中西餐厅！");
+  	   	parent.sweetAlert("提示","请选择中西餐厅！","warning");
   	   	return ;
   	   }
   	   if(form1.cfCount.value==""||form1.cfCount.value==null)
   	   {
-  	   	parent.sweetAlert("提示","请写入用餐人数！");
+  	   	parent.sweetAlert("提示","请写入用餐人数！","warning");
   	   	return ;
   	   }
   	    if(form1.cfDate.value==""||form1.cfDate.value==null)
   	   {
-  	   	parent.sweetAlert("提示","请选择用餐日期！");
+  	   	parent.sweetAlert("提示","请选择用餐日期！","warning");
   	   	return ;
   	   }
   	   if(form1.cfTime.value==""||form1.cfTime.value==null)
   	   {
-  	   	parent.sweetAlert("提示","请选择用餐时段！");
+  	   	parent.sweetAlert("提示","请选择用餐时段！","warning");
   	   	return ;
   	   }  	 
   	   var cfType=form1.cfType.value,cfCount=form1.cfCount.value,
   	       cfDate=form1.cfDate.value,cfTime=form1.cfTime.value;
+  	   var user_id=getCookie("user_id");
   	   var u="http://192.168.1.196:9090//outerApi/getAvailableBoard?order_board_date="
-        	+cfDate+"&order_board_time_interval="+cfTime
+        	+cfDate+"&order_board_time_interval="+cfTime+"&user_id="+user_id
         	+"&board_type="+cfType+"&order_people_number="+cfCount;
             $.ajax({
                 type: "POST",//方法类型
@@ -169,54 +187,59 @@ function cfNoInit()
                 	var result = eval( '(' + r + ')' );                
                     console.log(r);//打印服务端返回的数据(调试用)
                     if (result["rspCode"] == "DC00000") {                     	 
-                         var b=eval(result["board_id_set"]);                   
+                         var b=eval(result["board_id_set"]); 
+                         $("div.sod_list").eq(2).empty();   
+                         var strHtml='<ul style="max-height:160px;"><li class="selected active" title="请选择用餐桌号" data-value="">请选择用餐桌号</li>';
                          for (var i=0;i<b.length;i++)
+                         {
                            form1.cfNo.options.add(new Option(b[i]+"号",b[i]));
-                         // $("#cfNo").append('<option value="'+b[i]+'">'+b[i]+'</option>');
+                          // $("#cfNo").append('<option value="'+b[i]+'">'+b[i]+'</option>');
+                           strHtml+='<li class="" title="'+b[i]+"号"+'" data-value="'+b[i]+'">'+b[i]+"号"+'</li>';                           
+                         }
+                         strHtml+='</ul>';
+                         $("div.sod_list").eq(2).append(strHtml);
                     }else
-                      parent.sweetAlert("提示",result["rspMsg"]);
+                      parent.sweetAlert("提示",result["rspMsg"],"warning");
                 },
               error : function() {
-                    parent.sweetAlert("提示","异常！");
+                    parent.sweetAlert("提示","异常！","warning");
                 }
-            });
-        
-  });
+            });       
+  }); 
+}
 
 function submitForm()
 {
 	if(form1.cfType.value=="")
   	   {
-  	   	parent.sweetAlert("提示","请选择中西餐厅！");
+  	   	parent.sweetAlert("提示","请选择中西餐厅！","warning");
   	   	return ;
   	   }
   	   if(form1.cfCount.value==""||form1.cfCount.value==null)
   	   {
-  	   	parent.sweetAlert("提示","请写入用餐人数！");
+  	   	parent.sweetAlert("提示","请写入用餐人数！","warning");
   	   	return ;
   	   }
   	    if(form1.cfDate.value==""||form1.cfDate.value==null)
   	   {
-  	   	parent.sweetAlert("提示","请选择用餐日期！");
+  	   	parent.sweetAlert("提示","请选择用餐日期！","warning");
   	   	return ;
   	   }
   	   if(form1.cfTime.value==""||form1.cfTime.value==null)
   	   {
-  	   	parent.sweetAlert("提示","请选择用餐时段！");
+  	   	parent.sweetAlert("提示","请选择用餐时段！","warning");
   	   	return ;
   	   } 
   	   if(form1.cfNo.value==""||form1.cfNo.value==null)
   	   {
-  	   	parent.sweetAlert("提示","请选择桌号！");
+  	   	parent.sweetAlert("提示","请选择桌号！","warning");
   	   	return ;
   	   } 
-  	   var cfType=form1.cfType.value,cfCount=form1.cfCount.value,
-  	       cfDate=form1.cfDate.value,cfTime=form1.cfTime.value,
-  	       cfNo=form1.cfNo.value;
-  	   var u="http://192.168.1.196:9090//outerApi/x="
+  	   var cfDate=form1.cfDate.value,cfTime=form1.cfTime.value,
+  	       cfNo=form1.cfNo.value,userid=getCookie("user_id");
+  	   var u="http://192.168.1.196:9090//outerApi/reserveBoard?order_board_date="
         	+cfDate+"&order_board_time_interval="+cfTime
-        	+"&board_type="+cfType+"&order_people_number="+cfCount
-        	+"&board_id="+cfNo;
+        	+"&board_id="+cfNo+"&user_id="+userid;
             $.ajax({
                 type: "POST",//方法类型
                 url: u,//url  
@@ -226,13 +249,15 @@ function submitForm()
                 success: function (r) {
                 	var result = eval( '(' + r + ')' );                
                    // console.log(r);//打印服务端返回的数据(调试用)
-                    if (result["rspCode"] == "DC00000") {                                      
-                       parent.sweetAlert("提示",result["rspMsg"]);  
+                    if (result["rspCode"] == "DC00000") {   
+                       delCookie("order_id");
+                       SetCookie("order_id",result["order_id"]);  
+                       parent.showType(2);
                     }else
-                      parent.sweetAlert("提示",result["rspMsg"]);
+                      parent.sweetAlert("提示",result["rspMsg"],"warning");
                 },
               error : function() {
-                    parent.sweetAlert("提示","异常！");
+                    parent.sweetAlert("提示","异常！","warning");
                 }
             });
 	

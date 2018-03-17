@@ -2,19 +2,11 @@
 <html>
 	<head>
 		 <meta charset="utf-8">
-    
-		    <!--
-		    	时间：2018-03-12
-		    	描述：IE8/9及以后的版本都会以最高版本IE来渲染页面
-		    -->
 		    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
 		    <meta name="description" content="Login">
 		    <meta name="author" content="Amber">
+    		<title>重庆大酒店在线点餐系统</title>
 
-    		<title>Content Manage System</title>
-
-		    <!-- Bootstrap Core CSS -->
 		    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 		    
 		    
@@ -26,8 +18,46 @@
 			    width: 20px;    
 			    margin: 0 auto;    
 			    line-height: 24px;    
-			    font-size: 15px;  
+			    font-size: 15px; 
+			    cursor: pointer; 
 			}  
+			
+			#cqu { 
+		float: left;
+		margin-top:0px;
+		margin-left: 50px;		   
+        width: 20px;    
+        font-family:"楷体";    
+         line-height: 24px;    
+         font-size: 20px;  
+          }  
+			
+			#home {
+				float: left;
+				margin-top:-120px;
+				margin-left: 40px;
+				width: 50px;
+				height: 60px;
+				background:url(img/home.png);
+				border:none;	
+				outline:none;
+				cursor: pointer;	
+				vertical-align: top;			
+			}
+			
+			#gwc {
+				float: left;
+				margin-top:-60px;
+				margin-left: 40px;
+				width: 50px;
+				height: 60px;
+				background:url(img/gwc.png) no-repeat;
+				border:none;
+				outline:none;
+				cursor: pointer;	
+				vertical-align: top;				
+			}
+			
 			.wrap {
 				  display: table;
 				  margin-top: 180px;
@@ -55,8 +85,10 @@
 				.container{
 					margin: -250px 350px;
 					width: 600px;
-					height: 600px;	
+					height: 400px;	
 				}
+				
+				
 
 		    </style>
 	</head>
@@ -64,24 +96,35 @@
 	
 	
 	<body>
+		<button id="home" onclick="window.location.href='caipin.html';"></button>
+		<button id="gwc" onclick="window.location.href='clientOrderList.html';"><</button>
+		<div id="cqu">重庆大酒店</div> 
 			<div class="wrap">
 				<div class="left">
-					 <div class="one" href="account.html">叁
+					 <div class="one" >叁
 					 	<img src="img/verline.png"></img> 联系我们</div>    
 				 </div>
 				  <div class="middle">
-				 	<div class="one" href="transaction.html">贰
+				 	<div class="one" >贰
 				 		<img src="img/verline.png"></img> 订单信息</div>    
 				</div>
 				 <div class="right">
-				 	<div class="one" href="usr.html">壹	 	
+				 	<div class="one" onclick="intoInfo()">壹	 	
 				 		<img src="img/verline.png"></img> 账户</div>    
 				</div>
 			</div>		
 			
 			<div class="container">
-				<iframe src="usr/in_info.html" style="width: 600px; height: 600px;border: 0px;"></iframe>
-			</div>
-		
+				<iframe src="usr/in_info.html" style="width: 600px; height: 500px;border: 0px;"></iframe>
+			</div>		
 	</body>
+	<script type="text/javascript" src="js/jquery-3.3.1.min.js" ></script>
+	<script type="text/javascript">
+		function intoInfo()
+		{
+           $('iframe').attr('src',"usr/in_info.html");  
+		}
+		
+	</script>
+	
 </html>

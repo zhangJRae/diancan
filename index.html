@@ -8,7 +8,7 @@
 		<!-- 内部文档样式表 -->
 		<style>		
 			body {
-				font-family: "宋体";
+				font-family: "楷体";
 				font-size: 12px;				
 				background: url(img/bj2.png)  top center;
 				background-attachment: fixed; 
@@ -20,7 +20,7 @@
 		margin-top:150px;
 		margin-left: -40px;		   
         width: 20px;    
-        font-family:"楷体"    
+        font-family:"楷体";    
          line-height: 24px;    
          font-size: 20px;  
           }  
@@ -73,17 +73,7 @@
 				height: 800px;
 				opacity:0 ;									
 			}
-			
-			#orderlist {
-				float:right;
-				margin-top:160px;
-				margin-right: 350px;
-				position:absolute;
-				width: 500px;	
-				height: 400px;
-				opacity:0 ;	
-								
-			}
+						
 			
 			#jt {
 				float: right;
@@ -113,15 +103,15 @@
 		   data-toggle="dropdown">
 			欢迎您，<span id="username"></span>&nbsp;&nbsp;<b class="caret"></b>
 		</a>
-		<ul class="dropdown-menu" role="menu" aria-labelledby="welcome">
-			<li><a href="#" tabindex="-1" data-toggle="tab">个人中心</a></li>
+		<ul class="dropdown-menu pull-right" style="width: 100%;background:transparent;" role="menu" aria-labelledby="welcome">
+			<li><a onclick="info()" tabindex="-1" data-toggle="tab">个人中心</a></li>
 			<li class="divider"></li>
 			<li><a onclick="logout()" tabindex="-1" data-toggle="tab">退出登录</a></li>
 		</ul>
 	</li>
    </ul>	
-		<button id="home" onclick="showType(2)"></button>
-		<button id="gwc" onclick=""><</button>
+		<button id="home" onclick="window.location.href='caipin.html';"></button>
+		<button id="gwc" onclick="window.location.href='clientOrderList.html';"><</button>
 		<div id="cqu">重庆大酒店</div> 
 		<img id="jt" src="img/jt.png" />
 	
@@ -137,21 +127,13 @@
 			</iframe>
 		</div>
 		
-		<div id="orderlist" >
-			<iframe frameborder="0" scrolling="no" 
-			width="100%" height="100%"	src="clientOrderList.html">
-			</iframe>
-		</div>
-		
 	</body>	
 	<script src="js/jquery-3.3.1.min.js"></script>
 	<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
      <script type="text/javascript" src="js/cookieSet.js" ></script>
 	 <script type="text/javascript">	
-	 	$(document).ready(function(){
-          //showType(0);
-	 	 // showOrderlist(0);	
+	 	$(document).ready(function(){	
 	 	 $("#selectType").hide();
 	 	  login();
           var user_id=getCookie("user_id");
@@ -172,6 +154,11 @@
             window.location.href='login.html'; 
         }
         
+        function info()
+        {
+        	window.location.href='usr_info.html';
+        }
+        
         function showType(t){ 
         	t=t*1000;
               $("#jt").animate({
@@ -185,19 +172,8 @@
                 opacity:1,
                // top:"-=400px"
             },t);
-        }
-        
-        function showOrderlist(t){
-        	t=t*1000;
-             $("#selectType").animate({
-                opacity:0,
-                top:"-=400px"
-            },t);
-            $("#orderlist").animate({
-                opacity:1,
-                top:"-=1000px"
-            },t);
-        }  
+            setTimeout('$("#selectTable").hide();',t);                        
+        }               
         
          function login() {
         	var tel=getCookie("user_phone");

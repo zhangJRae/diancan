@@ -1,16 +1,75 @@
-﻿<style>
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<script src="js/sweet-alert.min.js"></script>
+        <link rel="stylesheet" href="css/sweet-alert.css">
+		<meta charset="UTF-8">
+		<title>重庆大酒店在线点餐系统</title>
+		<!-- 内部文档样式表 -->
+		<style>		
+			body {
+				font-family: "楷体";
+				font-size: 12px;				
+				background: url(img/bj2.png)  top center;
+				background-attachment: fixed; 
+				background-repeat:no-repeat;				
+			}
+			
+			#cqu { 
+		float: left;
+		margin-top:150px;
+		margin-left: -40px;		   
+        width: 20px;    
+        font-family:"楷体";    
+         line-height: 24px;    
+         font-size: 20px;  
+          }  
+			
+			#home {
+				float: left;
+				margin-top:40px;
+				margin-left: 40px;
+				width: 50px;
+				height: 60px;
+				background:url(img/home.png);
+				border:none;	
+				outline:none;
+				cursor: pointer;	
+				vertical-align: top;			
+			}
+			
+			#gwc {
+				float: left;
+				margin-top:100px;
+				margin-left: -50px;
+				width: 50px;
+				height: 60px;
+				background:url(img/gwc.png) no-repeat;
+				border:none;
+				outline:none;
+				cursor: pointer;	
+				vertical-align: top;				
+			}								
+			
+			#myTab {
+				float: right;
+				cursor: pointer;
+				font-size:16px;
+				border:none;	
+				outline:none;
+			}   
+			#myTab li{
+				text-align: center;
+			} 
 			
 			#orderlist {
-				/*float:right;
-				margin-top:40px;
-				margin-right: 240px;*/
+				float:left;
+				margin-top:30px;
+				margin-left: 450px;
 				position: relative;
 				width: 500px;	
 				height: 300px;		
-				border-radius: 10px;
-				/*background: url(img/kuang.png)  no-repeat ;
-				background-size: 100%;*/
-				
+				border-radius: 10px;	
 			}
 			
 			#orderlist dl dt {
@@ -19,8 +78,7 @@
 				font-weight: bold;
 				text-align: center;
 				line-height: 50px;
-				color: black;				
-							
+				color: black;											
 			}
 			
 			#orderlist dl dt span {
@@ -28,19 +86,13 @@
 			}
 			#orderlist dl dd {
 				margin: 5px 0px;
-				text-align: center;
+				text-align: left;
 			}
-			.input-size {
-				width: 260px;
-				height: 26px;
-				padding-left: 5px; /* 左部填充 */
-				line-height: 26px;
-			}
-			
 			.btn-submit {
 				 width: 150px;
                  height: 40px;
 				margin-top: 10px;
+				margin-left: 35%;
 				margin-bottom: 10px;
 				background: transparent;
                 border: 0;
@@ -54,6 +106,19 @@
                  color:white;
 			}
 			
+				.btn-remove {
+				width: 20px;
+				height: 20px;				
+			    background: url(img/remove.png)  center center;
+				border:none;	
+				outline:none;
+				cursor: pointer;	
+				vertical-align: top;
+				margin-right: -15px;	
+				margin-left: 30px;
+				background-size:cover		 				
+			}
+			
 			.btn-add {
 				width: 20px;
 				height: 20px;				
@@ -62,36 +127,76 @@
 				outline:none;
 				cursor: pointer;	
 				vertical-align: top;
-				margin-right: 10px;	
-				margin-left: 5px;
+			    margin-right: 10px;
+				margin-left: -15px;
 				background-size:cover		 				
-			}
-			.btn-remove {
-				width: 20px;
-				height: 20px;				
-			    background: url(img/remove.png)  center center;
-				border:none;	
-				outline:none;
-				cursor: pointer;	
-				vertical-align: top;
-				margin-right: 10px;
-				margin-left: 10px;
-				background-size:cover		 				
-			}
-			
-			span {
+			}			
+			table span {
 				text-align: center;
 				margin-right: 20px;	
 				margin-left: 20px;
 			}
 			
-		</style>	
-		<div id="orderlist">			
+			table thead, tbody tr {
+             display:table;
+             width:100%;
+            table-layout:fixed;
+             }
+
+            table thead {
+               width: calc( 100% - 1em )
+            }
+            table thead th{ background:#ccc;}
+			
+			table tbody {
+            display:block;
+            max-height: 200px;
+            width: 500px;
+            overflow-y:scroll;
+            }
+            
+       table tbody::-webkit-scrollbar {/*滚动条整体样式*/
+        width: 10px;     /*高宽分别对应横竖滚动条的尺寸*/
+        height: 1px;
+       }        
+        table tbody::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+        border-radius: 10px;
+         -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        background: #FFE7BA;
+       }
+        table tbody::-webkit-scrollbar-track {/*滚动条里面轨道*/
+       	-webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        border-radius: 10px;
+        border-width: 0;
+        background: #FFF8DC;
+       }
+            
+            													
+		</style>
+	</head>
+	<body>
+		
+	<ul id="myTab" class="nav nav-tabs">	
+	<li class="dropdown" >
+		<a href="#" id="welcome" class="dropdown-toggle" 
+		   data-toggle="dropdown">欢迎您，<span id="username"></span>&nbsp;<b class="caret"></b>
+		</a>
+		<ul class="dropdown-menu pull-right" style="width: 100%;background:transparent;" role="menu" aria-labelledby="welcome">
+			<li><a onclick="info()" tabindex="-1" data-toggle="tab">个人中心</a></li>
+			<li class="divider"></li>
+			<li><a onclick="logout()" tabindex="-1" data-toggle="tab">退出登录</a></li>
+		</ul>
+	</li>
+   </ul>	
+		<button id="home" onclick="window.location.href='caipin.html';"></button>
+		<button id="gwc" onclick="window.location.href='clientOrderList.html';"><</button>
+		<div id="cqu">重庆大酒店</div> 
+	 <div id="orderlist">			
 			<form id="form1" name="form1" method="get" action="#">
 				<dl>
 				    <dt>订单列表</dt>				    
-				    <dd>
-				    <table align="center" width="100%">
+				    <dd >
+				    <table align="center" width="100%" >
 				    <thead>	
 					<tr >
 				 		<td align="center" width="20%">菜名</td>
@@ -100,65 +205,330 @@
 				 		<td align="center" width="20%">小计</td>
 				    </tr>
 				    </thead>
-				    <tbody id="tbody-list">  
-                  
-					<tr height="40">
-					 		<td align="center" width="20%">烤乳猪</td>
-					 		<td align="center" width="20%">￥68.0</td>
-					 		<td align="center" width="20%">				 		
-					 		<button class="btn-add"/> <span>1</span>	
-					 		<button class="btn-remove"/>	
-					 		</td>
-					 		<td align="center" width="20%">68.0</td>					 	
-				   </tr>					    
-				    <tr height="40">
-					 		<td align="center" width="20%">红烧鱼</td>
-					 		<td align="center" width="20%">￥54.0</td>
-					 		<td align="center" width="20%">					 		
-					 		<button class="btn-add"/><span >2</span>
-					 		<button class="btn-remove"/>	
-					 		</td>
-					 		<td align="center" width="20%">108.0</td>					 	
-				    </tr>
-				    </tbody>  				    
+				    <tbody id="tbody-list" >                  							    				    
+				    </tbody>  
+				    <br /><br />
 				    <tfoot>
 					<tr>
 						<td colspan="6" align="center" >总计:
-							<span style="font-size:25px;">&yen;</span>
+							<span style="font-size:20px;">&yen;</span>
 							<label
-								id="counter" style="font-size:25px">176.0</label>
+								id="summ" style="font-size:20px"></label>
 						</td>
 					</tr>
 				    </tfoot>					
-				</table>
-				
+				</table>				
 				    </dd>
-				    <dd><input type="button" value="下单" class="btn-submit" /></dd>
+				    <dd id="vipdd">
+				    <input type="radio" name="cType"  value="0" checked="checked" >				   
+				    	&nbsp;VIP价格:
+							<span style="margin-left:15px;font-size:15px;">&yen;</span>
+							<label
+								id="vipm" style="font-size:15px"></label>
+				    </dd>
+				    <dd>
+				    	<input type="radio" name="cType" value="1"> 
+				    	&emsp;优惠券:
+							
+							<select id="Coupon" disabled>
+								<option value="">不使用</option>
+							</select>
+						</td>
+				    </dd>
+				    <dd>
+				    	&emsp;&emsp;&emsp;&nbsp;实付:
+							<span style="margin-left:15px;font-size:15px;">&yen;</span>
+							<label
+								id="totalm" style="font-size:15px"></label>
+				    </dd>
+				    <dd><input type="button" onclick="checkOut()" value="结账" class="btn-submit" /></dd>
 			    </dl>
 			</form>
 		</div>
-	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+				
+	</body>	
+	<script src="js/jquery-3.3.1.min.js"></script>	
+	<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/cookieSet.js" ></script>
-	<script type="text/javascript">	
-		function getList()
-		{
-//			var str = "";  
-//          var data = msg.data;    
-//          for (i in data) {  
-//                      str += "<tr>" +  
-//                      "<td>" + data[i].hotel_seq + "</td>" +  
-//                      "<td>" + data[i].hotel_name + "</td>" +  
-//                      "<td>" + data[i].order_no + "</td>" +  
-//                      "<td>" + data[i].user_phone + "</td>" +  
-//                      "<td>" + data[i].create_time + "</td>" +  
-//                      "<td>" + data[i].user_id + "</td>" +  
-//                      "<td>" + data[i].cellid + "</td>" +  
-//                      "<td>" + data[i].gps_city + "</td>" +  
-//                      "<td>" + data[i].cell_city + "</td>" +  
-//                      "<td>" + data[i].distance + "</td>" +  
-//                      "</tr>";  
-//          }  
-//          $("#tbody-list").innerHTML = str;  
-		}
-	</script>
+     <script type="text/javascript" src="Select-or-Die/js/selectordie.min.js" ></script>
+     <link rel="stylesheet" href="Select-or-Die/css/selectordie.css" />
+     <link rel="stylesheet" href="Select-or-Die/css/selectordie_theme_04.css" />
+	 <script type="text/javascript">	
+	 	$(document).ready(function(){
+	 	  $("#Coupon").selectOrDie();
+          var user_id=getCookie("user_id");
+          if(user_id==null || user_id=="")
+            window.location.href="login.html"; 
+          else
+            $("#username").text(getCookie("user_name")); 
+            initList();
+            md_sele();
+            $("#Coupon").change(useCoupon);
+        });
+        
+        function logout()
+        {
+        	delCookie("user_id");
+            delCookie("user_name");
+            delCookie("user_password");
+            delCookie("member_level");
+            delCookie("user_phone");
+            window.location.href='login.html'; 
+        }
+        
+        function info()
+        {
+        	window.location.href='usr_info.html';
+        }
+   
+function md_sele()
+{
+  $("div.sod_select").eq(0).on("mousedown", function(){
+  	   if($("#Coupon").get(0).options.length>1)
+  	     return;
+  	   var user_id=getCookie("user_id");
+  	   var order_id=getCookie("order_id");
+  	   if(user_id==null || order_id==null)
+  	     return;  	  
+  	   var u="http://192.168.1.196:9090//outerApi/getCouponList?user_id="
+        	+user_id+"&order_id="+order_id;
+            $.ajax({
+                type: "POST",//方法类型
+                url: u,//url  
+                timeout : 1000, 
+                contentType: "application/x-www-form-urlencoded",
+                async: false,
+                success: function (r) {
+                	var result = eval( '(' + r + ')' );                
+                    if (result["rspCode"] == "DC00000") {                     	 
+                       var b=eval(result["coupon_List"]); 
+                       $("#Coupon").empty(); 
+                       $("#Coupon").append('<option value="">不使用</option>'); 
+                       $("div.sod_list").eq(0).empty();   
+                       var strHtml='<ul style="max-height:160px;"><li class="selected active" title="不使用" data-value="">不使用</li>';
+                       for (var i=0;i<b.length;i++)
+                       {
+                         var c=b[i]; 	
+                         $("#Coupon").append('<option value="'+c["couponId"]+'">'+c["remark"]+'</option>');                   
+                         strHtml+='<li class="" title="'+c["remark"]+'" data-value="'+c["couponId"]+'">'+c["remark"]+'</li>';                           
+                      }
+                       strHtml+='</ul>';
+                       $("div.sod_list").eq(0).append(strHtml);                                                  
+                    }else if (result["rspCode"] == "DC00014") 
+                    {                    	
+                    }
+                    else
+                      parent.sweetAlert("提示",result["rspMsg"],"warning");
+                },
+              error : function() {
+                    parent.sweetAlert("提示","异常！","warning");
+                }
+            });       
+  }); 
+}
+ 
+ function useCoupon()
+ {
+ 	if($("#Coupon").val()=="")
+ 	{
+ 	  $("#totalm").text($("#summ").text());
+ 	  return;
+ 	} 	  
+ 	$.ajax({
+                type: "POST",//方法类型
+                url: "http://192.168.1.196:9090//outerApi/useCoupon?order_id="+getCookie("order_id")
+                +"&coupon_id="+$("#Coupon").val(),//url
+                timeout : 1000, 
+                contentType: "application/x-www-form-urlencoded",
+                async: false,
+                success: function (r) {
+                	var result = eval( '(' + r + ')' );                
+                    if (result["rspCode"] == "DC00000") {  
+                    	$("#totalm").text(result["coupon_Amt"]);                   	  
+                    }
+                    else
+                       sweetAlert("提示",result["rspMsg"],"warning");
+                },
+              error : function() {
+                    //sweetAlert("提示","异常！","warning");
+                }
+   });
+ }
+
+ function addFood(food)
+ {
+ 	
+ 	$("#tbody-list").append('<tr height="40"><td align="center" width="20%">'+food["foodName"]+'</td><td align="center" width="20%">￥'
+ 	+food["price"].toFixed(1)+'</td><td align="center" width="20%"><button class="btn-remove" onclick="removeF('+food["foodId"]+')"></button><span id="'
+ 	+'foodSum'+food["foodId"]+'">'+food["num"]+'</span><button class="btn-add" onclick="addF('+food["foodId"]+')"></button></td><td align="center" width="20%"><span id="'
+ 	+'foodtotal'+food["foodId"]+'">'+food["total"].toFixed(1)+'</span></td></tr>');
+ }
+ 
+ function addF(id)
+ {
+ 	var sp=document.getElementById('foodSum'+id); 
+ 	var count=Number(sp.innerText)+1; 
+ 	if(count>21)
+ 	  return;
+ 	sp.innerText=count;
+ 	submitF(id,count);	
+ }
+ 
+  function removeF(id)
+ {
+ 	var sp=document.getElementById('foodSum'+id); 
+ 	var count=Number(sp.innerText)-1; 
+ 	if(count<0)
+ 	  return;
+ 	sp.innerText=count;
+ 	submitF(id,count);
+ 	if(count==0)
+ 	 sp.parentNode.parentNode.remove(); 
+ }
+  function submitF(id,count)
+  {
+  	var u="http://192.168.1.196:9090//outerApi/shoppingCartAddMinus?food_id="
+                +id+"&food_num="+count+"&order_id="+getCookie("order_id");
+    var coupon_id=$("#Coupon option:selected").val();            
+    if(coupon_id!="")
+       u+="&coupon_id="+coupon_id;
+  	$.ajax({
+                type: "POST",//方法类型
+                url: u,//url
+                timeout : 1000, 
+                contentType: "application/x-www-form-urlencoded",
+                async: false,
+                success: function (r) {
+                	var result = eval( '(' + r + ')' );                
+                    //console.log(r);//打印服务端返回的数据(调试用)
+                    if (result["rspCode"] == "DC00000"||result["rspCode"] == "DC00018") 
+                    {
+                    	//sweetAlert("提示",result["rspMsg"],"warning"); 
+                    document.getElementById('foodtotal'+id).innerText
+                      =result["mod_food_single_sum"];
+                   $("#summ").text(result["food_sum_money"]);
+                   $("#vipm").text(result["vip_food_money"]); 
+                   $("#totalm").text(result["total_food_money"]);    
+                    } else
+                       sweetAlert("提示",result["rspMsg"],"warning");
+                    if (result["rspCode"] == "DC00018")
+                    {
+                    	 sweetAlert("提示",result["rspMsg"],"warning");
+                    	 $("#Coupon").val("");
+                    }
+                   
+                },
+              error : function() {
+                    //sweetAlert("提示","异常！","warning");
+                }
+            });
+  }
+ 
+ function initList()
+ {
+ 	$.ajax({
+                type: "POST",//方法类型
+                url: "http://192.168.1.196:9090//outerApi/shoppingCart?order_id="
+              +getCookie("order_id"),//url
+                timeout : 1000, 
+                contentType: "application/x-www-form-urlencoded",
+                async: false,
+                success: function (r) {
+                	var result = eval( '(' + r + ')' );                              
+                    if (result["rspCode"] == "DC00000") {                     	 
+                       $("#tbody-list").empty();
+                       var foods=eval( '(' + result["pay_food_all"] + ')' );
+                       for(var i=0;i<foods.length;i++)    
+                    	  addFood(foods[i]); 
+                    	if(result["is_vip_user"]==0) 
+                    	{
+                    	   $("#vipdd").hide();
+                    	   $("#Coupon").removeAttr("disabled");
+                    	   $('input:radio[name="cType"]').get(1).checked=true; 
+                    	}                    	   
+                    	$("#summ").text(result["food_sum_money"]);
+                    	$("#vipm").text(result["vip_food_money"]); 
+                    	$("#totalm").text(result["total_food_money"]);                                            
+                    }else if (result["rspCode"] == "DC00013")
+                    {
+                    	 swal({ 
+                     title: "提示", 
+                     type: "warning",
+                     text: "订单已过期，请重新下单!",                
+                      },function(){
+                      	window.location.href='index.html'; 
+                      });                    	
+                    }else if (result["rspCode"] == "DC00022")
+                    {
+                    	 swal({ 
+                     title: "提示", 
+                     type: "warning",
+                     text: "订单已支付，可以重新下单!",                
+                      },function(){
+                      	window.location.href='index.html'; 
+                      });                    	
+                    }else
+                      sweetAlert("提示",result["rspMsg"],"warning");
+                },
+              error : function() {
+                    sweetAlert("提示","异常！","warning");
+                }
+     });	
+ }
+ 
+ $('input:radio[name="cType"]').change( function(){
+ 	if(this.value==1)
+ 	{
+ 	  $("div.sod_select").eq(0).removeClass("disabled");	
+ 	  $("#Coupon").removeAttr("disabled");
+ 	  $("#totalm").text($("#summ").text()); 
+ 	}	 
+ 	else
+ 	{
+ 	  $("div.sod_select").eq(0).addClass("disabled");	
+ 	  $("#Coupon").attr("disabled","disabled");	
+ 	  $("#Coupon").val("");
+ 	  $("div.sod_label").eq(0).text("不使用");
+ 	  $("#totalm").text($("#vipm").text());  
+ 	} 	  
+ });
+ 
+function checkOut()
+{
+ var u="http://192.168.1.196:9090//outerApi/checkOut?order_id="+getCookie("order_id");
+    var coupon_id=$("#Coupon option:selected").val();            
+    if(coupon_id!="")
+       u+="&coupon_id="+coupon_id;
+  	$.ajax({
+                type: "POST",//方法类型
+                url: u,//url
+                timeout : 1000, 
+                contentType: "application/x-www-form-urlencoded",
+                async: false,
+                success: function (r){
+                	var result = eval( '(' + r + ')' );                
+                    if (result["rspCode"] == "DC00000") 
+                    {
+                     var s="本次获得积分："+result["accumulate_points"]+"。";
+                     if(result["vip"] == 1)
+                       s+="恭喜成为我们尊贵的VIP会员！";                      
+                      swal({ 
+                     title: "支付成功！", 
+                     type: "success",
+                     text: s,                
+                   },function(){window.location.href='index.html'; });
+                     
+                    } else
+                       sweetAlert("提示",result["rspMsg"],"warning");                   
+                },
+              error : function() {
+                    sweetAlert("提示","异常！","warning");
+                }
+            });	
+}
+
+ </script>
+     
+
 </html>

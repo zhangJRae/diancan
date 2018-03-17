@@ -50,7 +50,7 @@
         	}
         	var pwd = hex_sha1(form1.password.value);	
         	var u="http://192.168.1.196:9090//outerApi/userRegister?user_name="+
-        	+name+"&user_phone="+tel+"&user_password="+pwd;
+        	name+"&user_phone="+tel+"&user_password="+pwd;
             $.ajax({
                 type: "POST",//方法类型
                 url: u,//url   

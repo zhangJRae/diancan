@@ -1,0 +1,115 @@
+<!-- 个人资料页面 -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		  <!-- Bootstrap Core CSS -->
+	    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		
+		<style>
+			body{
+				background: url(../img/pop.png);
+				background-repeat: no-repeat;
+				background-attachment: fixed;
+			}
+			.texttitle{
+				margin-top: 50px;
+				margin-left: 12px;
+				letter-spacing: 10px;
+				font-size: 24px;
+				color: whitesmoke;
+			}
+			.usrtitle{
+				margin-top:35px;
+				margin-left: 90px;
+				width:200px;
+				height:40px;
+			<!--	border:2px solid #434A52;-->
+				padding-top: 10px;
+				padding-left:10px;
+				padding-bottom: 20px;
+			}
+		
+			.perinfo{
+				margin-top: 35px;;
+				
+			}
+			.coulo{
+				margin-top: 20px;
+				margin-left: 100px;
+			}
+				.enlo{
+				margin-top: 20px;
+				margin-left: 250px;
+				width: 60px;
+				border:2px solid transparent;
+			}
+			 .info{
+				width: 140px;
+				margin-left: 10px;
+				font-size: 20px;
+				}	
+		</style>
+	</head>	
+	<body>		
+		<div class="texttitle">
+			<p>个人信息</p>
+		</div>
+		
+		<div class="usrtitle">
+			<div>个人信息</div>
+			<div style="padding-top: 5px;">PERSONAL INFORMATION</div>
+		</div>
+		
+		<div class="perinfo">
+			<div class="coulo">
+				<div>姓名：<span class="info" id="user_name"></span></div>
+			</div>
+			<div class="coulo" >
+				<div >性别：<span class="info" id="user_gender"></span></div>
+			</div>
+			<div class="coulo">
+				<div>生日：<span class="info" id="user_birth"></span>
+				</div>
+			</div>
+			<div class="coulo">
+				<div>联系方式：<span class="info" id="user_phone"></span>
+					</div>
+			</div>
+		</div>
+		
+		 <div class="enlo">  
+			<button id="btnsm" onclick='window.location.href="perinfo.html";'
+				type="button" class="btn btn-default">修改</button>
+		 </div>
+	</body>
+	<script type="text/javascript" src="../js/jquery-3.3.1.min.js" ></script>
+	<script type="text/javascript" src="../js/cookieSet.js" ></script>
+	<script type="text/javascript">	
+	    $(document).ready(function(){	
+	    	//请求个人信息
+	 	   $.ajax({
+                type: "POST",//方法类型
+                url: "http://192.168.1.196:9090//outerApi/getUserDetailInfo?user_id="+getCookie("user_id"),//url
+                contentType: "application/x-www-form-urlencoded",
+                async: false,
+                success: function (r) {
+                	 var result = eval( '(' + r + ')' );  
+                	 if (result["rspCode"] == "DC00000")
+                	 {
+                	 	$("#user_name").text(result["user_name"]); 
+                	 	$("#user_birth").text(result["user_birth"]); 
+                	    $("#user_gender").text(result["user_gender"]); 
+                	 	$("#user_phone").text(result["phone"]); 
+                	 }else
+                      parent.sweetAlert("提示",result["rspMsg"],"warning");
+                },
+              error : function() {
+                    parent.sweetAlert("提示","异常！", "warning");
+                }
+              });
+          });
+     </script>
+</html>
+

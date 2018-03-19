@@ -1,3 +1,4 @@
+<!-- 充值页面 -->
 <!DOCTYPE html>
 <html>
 	<head>
@@ -10,17 +11,7 @@
 		<title>renewal</title>
 		
 		  <!-- Bootstrap Core CSS -->
-	    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	
-	    <!-- MetisMenu CSS -->
-	    <link href="vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
-	
-	    <!-- Custom CSS -->
-	    <link href="dist/css/sb-admin-2.css" rel="stylesheet">
-	
-	    <!-- Custom Fonts -->
-	    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-		
+	    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 		
 		<style>
 			body{
@@ -53,6 +44,14 @@
 				height: 20px;
 				font-size: 15px;
 			}
+			.rebalan{
+				border:2px solid transparent;
+				margin-left: 90px;
+				margin-top: 0px;
+				width: 200px;
+				height: 20px;
+				font-size: 15px;
+			}
 			.bulo{
 				border:2px solid transparent;
 				margin-top: 13px;
@@ -66,8 +65,8 @@
 			width: 80px;
 			}
 			.enlo{
-				margin-top: 60px;
-				margin-left: 180px;
+				margin-top: 20px;
+				margin-left: 200px;
 				width: 60px;
 				border:2px solid transparent;
 			}
@@ -87,70 +86,134 @@
 		</div>
 		
 		<div class="usrtitle">
+			
 			<div>充值</div>
 			<div style="padding-top: 5px;">MEMBERSHIP RENEWAL</div>
 		</div>
 		<div>
 			<div class="curbalan">当前余额：</div>
-			<div style="margin-top:  -20px;margin-left: 170px;" class="curbalan">0.00</div>
+			<div id="textCur" style="margin-top:  -20px;margin-left: 170px;" class="curbalan">0.00</div>
 		</div>
 		
 		<div class="bulo">
 		<div style="margin-left: 20px;"class="locabu">
 			<div>
-		     <button type="button" class="btn btn-primary">¥100 </button>
+		     <button type="button" class="btn btn-primary" id="btn100"
+		     	onclick="recharge(100)">¥100 </button>
 		    </div>
 	   </div> 
 	   
 	   <div style="margin-left: 20px;"class="locabu">   	
 			<div>
-		     	<button type="button" class="btn btn-primary">¥1000 </button>
+		     	<button type="button" class="btn btn-outline-primary"
+		     	id="btn1000"	onclick="recharge(1000)">¥1000 </button>
 		     </div>
 	   </div>
 	   
 	     <div style="margin-left: 100px; margin-top: -85px;"class="locabu">   	
 			<div>
-		     	<button type="button" class="btn btn-primary">¥200 </button>
+		     	<button type="button" class="btn btn-outline-primary"
+		     	id="btn200"	onclick="recharge(200)">¥200 </button>
 		     </div>
 	   </div>
 	   
 	     <div style="margin-left: 100px; "class="locabu">   	
 			<div>
-		     	<button type="button" class="btn btn-outline-primary">¥1500 </button>
+		     	<button type="button" class="btn btn-outline-primary"
+		     id="btn1500"  onclick="recharge(1500)">¥1500 </button>
 		     </div>
 	   </div>
 	     <div style="margin-left: 180px; margin-top:-85px ;"class="locabu">   	
 			<div>
-		     	<button type="button" class="btn btn-outline-primary">¥500 </button>
+		     	<button type="button" class="btn btn-outline-primary"
+		     id="btn500" onclick="recharge(500)">¥500 </button>
 		     </div>
 	   </div>
 	     <div style="margin-left:180px;"class="locabu">   	
 			<div>
-		     	<button type="button" class="btn btn-outline-primary ">¥2000 </button>
+		     	<button type="button" class="btn btn-outline-primary "
+		     	id="btn2000" onclick="recharge(2000)">¥2000 </button>
 		     </div>
 	   </div>
-	   
-		 <div class="enlo">  
-		 	<button type="button" class="btn  btn-default">确定</button>
-
-		 </div>
-
 	</div>
-		 
-		 
-		 
-		 
-		   <!-- jQuery -->
-	    <script src="vendor/jquery/jquery.min.js"></script>
+	   	<div>
+			<div class="rebalan">已选择金额：</div>
+			<div id="textRe" style="margin-top:  -20px;margin-left: 190px;" class="rebalan">100</div>
+		</div>
+		 <div class="enlo">  
+		 	<button type="button" class="btn btn-default" onclick="confirm()">确认充值</button>
+		 </div>
+		<script type="text/javascript" src="../js/cookieSet.js" ></script>		 		 		 
+	    <script src="../js/jquery-3.3.1.min.js"></script>	
+	    <script type="text/javascript">
+	    $(document).ready(function(){	
+	    	//请求获取当前余额
+	 	   $.ajax({
+                type: "POST",//方法类型
+                url: "http://192.168.1.196:9090//outerApi/rechargePageLoading?user_id="+getCookie("user_id"),//url
+                contentType: "application/x-www-form-urlencoded",
+                async: false,
+                success: function (r) {
+                	 var result = eval( '(' + r + ')' );  
+                	 if (result["rspCode"] == "DC00000")
+                	 {
+                	 	$("#textCur").text(result["balance"]); 
+                	 }else
+                      parent.sweetAlert("提示",result["rspMsg"],"warning");
+                },
+              error : function() {
+                    parent.sweetAlert("提示","异常！", "warning");
+                }
+              });
+           });
+           
+            //按钮选中后将其他按钮置为未选中
+	    	function recharge(money)
+	    	{	    	  
+	    	  var btns=document.querySelectorAll('.btn-primary');
+	    	  for(i=0;i<btns.length;i++)
+	    	    btns[i].className ='btn btn-outline-primary'; 
+	    	   var node = document.getElementById('btn'+money);	
+	    	  if(node.classList.contains('btn-primary')){
+                document.getElementById('btn'+money).className ='btn btn-outline-primary'; 
+               }
+	    	  else if(node.classList.contains('btn-outline-primary')){
+                document.getElementById('btn'+money).className ='btn btn-primary'; 
+               } 
+              $("#textRe").text(money); 
+	    	}
+	    	
+	    	//提交充值金额
+	    	function confirm()
+	    	{
+	    		$.ajax({
+                type: "POST",//方法类型
+                url: "http://192.168.1.196:9090//outerApi/recharge?user_id="
+                +getCookie("user_id")+"&recharge_amt="+$("#textRe").text(),//url
+                contentType: "application/x-www-form-urlencoded",
+                async: false,
+                success: function (r) {
+                	var result = eval( '(' + r + ')' );                
+                    if (result["rspCode"] == "DC00000") {
+                     var s="您的余额为"+result["user_balance"]+"，本次获得积分："
+                         +result["get_accumulate_points"]+"。";
+                     if(result["vip"] == 1)
+                       s+="恭喜成为我们尊贵的VIP会员！";                      
+                      parent.swal({ 
+                     title: "充值成功！", 
+                     type: "success",
+                     text: s,                
+                   },function(){window.location.href='usr/in_info.html'; });	
+                    }else
+                      parent.sweetAlert("提示",result["rspMsg"],"warning");
+                },
+              error : function() {
+                    parent.sweetAlert("提示","异常！", "warning");
+                }
+            });
+	      }
+	    </script>
 	
-	    <!-- Bootstrap Core JavaScript -->
-	    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-	
-	    <!-- Metis Menu Plugin JavaScript -->
-	    <script src="vendor/metisMenu/metisMenu.min.js"></script>
-	
-	    <!-- Custom Theme JavaScript -->
-	    <script src="dist/js/sb-admin-2.js"></script>
 
 	</body>
 </html>

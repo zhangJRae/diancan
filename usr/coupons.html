@@ -1,23 +1,9 @@
+<!-- 优惠券列表页面 -->
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
-
-
-		  <!-- Bootstrap Core CSS -->
-	    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	
-	    <!-- MetisMenu CSS -->
-	    <link href="vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
-	
-	    <!-- Custom CSS -->
-	    <link href="dist/css/sb-admin-2.css" rel="stylesheet">
-	
-	    <!-- Custom Fonts -->
-	    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-		
-		
 		<style>
 			body{
 				background: url(../img/pop.png);
@@ -32,7 +18,7 @@
 				color: whitesmoke;
 			}
 			.usrtitle{
-				margin-top:35px;
+				margin-top:25px;
 				margin-left: 90px;
 				width:200px;
 				height:40px;
@@ -45,17 +31,73 @@
 				.curbalan{
 				border:2px solid transparent;
 				margin-left: 100px;
-				margin-top: 30px;
+				margin-top: 0px;
 				width: 200px;
 				height: 20px;
 				font-size: 15px;
 			}
-			.coulo{
-				margin-top: 20px;
-				margin-left: 100px;
+			#coupons{
+				margin-top: 5px;
+				display:block;
+				width: 350px;
+				max-height: 250px;
+				overflow-y:scroll;
 			}
+			
+		#coupons::-webkit-scrollbar {/*滚动条整体样式*/
+        width: 7px;     /*高宽分别对应横竖滚动条的尺寸*/
+        height: 1px;
+       }        
+        #coupons::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+        border-radius: 7px;
+         -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        background: #FFE7BA;
+       }
+        #coupons::-webkit-scrollbar-track {/*滚动条里面轨道*/
+       	-webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        border-radius: 7px;
+        border-width: 0;
+        background: #FFF8DC;
+        }
+			
+			.coulo1{
+				background: url(../img/coupon1.png);
+				background-size: 100%; 				
+				margin-top: 12px;
+				margin-left: 100px;
+				width: 200px;
+				height: 50px;
+				padding: 10px 10px;
+			}
+			.coulo2{
+				background: url(../img/coupon2.png);
+				background-size: 100%; 				
+				margin-top: 12px;
+				margin-left: 100px;
+				width: 200px;
+				height: 50px;
+				padding: 10px 10px;
+			}
+			.coulo_dc1{			
+				font-size: 20px;
+				font-weight: bold;
+			}
+			.coulo_dc2{			
+				font-size: 20px;
+				font-weight: bold;
+				margin-top: -65px;
+				margin-left: 155px;
+			}
+			.coulo_amt{	
+				margin-top: 2px;		
+				font-size: 8px;
+			}
+			.coulo_date{
+				margin-top:5px;
+				font-size: 8px;
+			}			
 				.enlo{
-				margin-top: 40px;
+				margin-top: 30px;
 				margin-left: 250px;
 				width: 60px;
 				border:2px solid transparent;
@@ -78,32 +120,56 @@
 		</div>
 		
 		<div>
-			<div class="curbalan">优惠券<span style="font-size: 12px;">(张)</span>：</div>
+			<div class="curbalan" >
+				优惠券<span style="font-size: 12px;">(张)</span>：
+				<span id="coupon_num"></span>
+			</div>
 		</div>
-		
-		<div class="coulo">
-			<img style="width:180px; height: 55px;"src="../img/300-10.png" />
-		</div>
-		<div class="coulo">
-			<img style="width:180px; height: 55px;"src="../img/600-30.png" />
-		</div>
-		
-		 <div class="enlo">  
-		 	<button type="button" class="btn  btn-default">确定</button>
-		 </div>
-		
-
-		   <!-- jQuery -->
-	    <script src="vendor/jquery/jquery.min.js"></script>
-	
-	    <!-- Bootstrap Core JavaScript -->
-	    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-	
-	    <!-- Metis Menu Plugin JavaScript -->
-	    <script src="vendor/metisMenu/metisMenu.min.js"></script>
-	
-	    <!-- Custom Theme JavaScript -->
-	    <script src="dist/js/sb-admin-2.js"></script>
+		<div id="coupons">		
+        </div>
+	<script type="text/javascript" src="../js/jquery-3.3.1.min.js" ></script>
+	<script type="text/javascript" src="../js/cookieSet.js" ></script>
+    <script type="text/javascript">
+		$(document).ready(function(){
+		//请求优惠券列表	
+		var u_i_url="http://192.168.1.196:9090//outerApi/getUserCoupon?user_id="+getCookie("user_id");	
+         $.ajax({
+			type:"post",
+			url:u_i_url,
+			timeout:1000,
+			contentType: "application/x-www-form-urlencoded",
+			async:false,
+			error:function(){
+				alter('Failed to communicate to the server. Try again!')
+			},
+			success:function(r){
+				var result=eval('('+r+')');
+				if(result["rspCode"]=="DC00000")
+				{
+					$("#coupon_num").text(result["coupon_num"]);
+					var coupons=eval('('+result["coupon_list"]+')'); 
+					$("#coupons").empty();
+					for(var i=0;i<coupons.length;i++)
+					  addCoupon(coupons[i]);
+				}
+			}
+		  });                   
+        });
+        
+        //列表中添加优惠券
+        function addCoupon(coupon)
+        {
+          var c="coulo2";
+          if(coupon["couponId"]=="1")	
+             c="coulo1"; 
+          $("#coupons").append('<div class="'+c+'"><div class="coulo_dc1">'+coupon["discount"]
+          +'圆代金券</div><div class="coulo_amt">'+coupon["consu_amt"]
+          +'圆可用</div><div class="coulo_date">'+coupon["start_time"].substring(0,10)+' 至 '
+          +coupon["expire_time"].substring(0,10)
+          +' </div><div class="coulo_dc2">'+coupon["discount"]+'圆</div> </div>');
+        }
+             
+	</script>
 
 
 	</body>

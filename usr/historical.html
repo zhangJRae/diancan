@@ -1,9 +1,160 @@
+<!-- 历史账单页面 -->
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
+		  <!-- Bootstrap Core CSS -->
+	    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		   				
+		<style>
+			body{
+				background: url(../img/pop.png);
+				background-repeat: no-repeat;
+				background-attachment: fixed;
+			}
+			.texttitle{
+				margin-top: 50px;
+				margin-left: 12px;
+				letter-spacing: 10px;
+				font-size: 24px;
+				color: whitesmoke;
+			}
+			.usrtitle{
+				margin-top:35px;
+				margin-left: 90px;
+				width:200px;
+				height:40px;
+			<!--	border:2px solid #434A52;-->
+				padding-top: 10px;
+				padding-left:10px;
+				padding-bottom: 20px;
+			}
+		
+				.curbalan{
+				border:2px solid transparent;
+				margin-left: 100px;
+				margin-top: 30px;
+				width: 150px;
+				height: 20px;
+				font-size: 15px;
+			}
+			.coulo{
+				margin-top: 20px;
+				margin-left: 100px;
+			}
+				.enlo{
+			    position:fixed;
+			    margin-top: -20px;;
+
+				margin-left: 250px;
+				width: 60px;
+				border:0px solid transparent;
+			}
+			.container{
+			   border: 0px solid transparent;
+			   margin-left: 80px;
+			   margin-top: 10px;
+				width: 250px;
+				height: 180px;;
+			}
+			
+			iframe {
+				border:0px; border-radius: 10px;; width: 250px;height: 150px;
+				
+			}
+		</style>
 	</head>
+	
+	
+	
+	
 	<body>
+		
+		<div class="texttitle">
+			<p>历史账单</p>
+		</div>
+		
+		<div class="usrtitle">
+			<div>历史账单</div>
+			<div style="padding-top: 5px;">HISTORICAL TRANSACTION</div>
+		</div>
+		
+		<div>
+			<div class="curbalan">历史消费总金额：<span id="sum_amt"></span></div>
+			<br />
+			<div class="curbalan" style="margin-left:100px;margin-top:2px;font-size: 10px;">近一年在重庆味道消费
+				<span id="comsu_num"></span> 次</div>
+		</div>
+				
+		<div class="container">
+				<iframe id="frame1" frameborder="0" width="100%" height="100%" src="transaction.html"></iframe>
+		</div>
+		
+			 <!--<div class="enlo">  
+			<button position="fixed"type="button" class="btn  btn-default">返回</button>
+		 </div>-->
+		
 	</body>
+	
+	<script type="text/javascript" src="../js/jquery-3.3.1.min.js" ></script>    
+	<script type="text/javascript" src="../js/cookieSet.js" ></script>
+	<script type="text/javascript">
+		$(document).ready(function(){	
+          var user_id=getCookie("user_id");
+          if(user_id==null || user_id=="")
+            window.location.href="../login.html";        
+        });
+        
+         $(window).on("load",function(){
+           	 getHistoryOrder(getCookie("user_id"));
+         }); 
+        
+        //获取历史账单信息
+        function getHistoryOrder(user_id)
+        {
+          var u="http://192.168.1.196:9090//outerApi/historyOrder?user_id="
+        	+user_id;
+            $.ajax({
+                type: "POST",//方法类型
+                url: u,//url           
+                contentType: "application/x-www-form-urlencoded",
+                async: false,
+                success: function (r) {
+                	var result = eval( '(' + r + ')' );                
+                   // console.log(r);//打印服务端返回的数据(调试用)
+                    if (result["rspCode"] == "DC00000") {  
+                       $("#comsu_num").text(result["comsu_num"]);  
+                       $("#sum_amt").text(result["sum_amt"]);  
+                    //  result["order_all"]  
+                        var order_all = eval( '(' + result["order_all"] + ')' );
+                        for(var i=0;i<order_all.length;i++)
+                        {                
+                          addTran(order_all[i]["order_paid"],order_all[i]["order_date"],i);
+                        }
+                    }else
+                       parent.sweetAlert("提示",result["rspMsg"],"warning");
+                },
+              error : function() {
+                    parent.sweetAlert("提示","异常！", "warning");
+                }
+            });	       	
+        }
+        
+        //列表中添加一条记录
+        function addTran(order_paid,order_date,i)
+        {
+          	var frame1 =$("#frame1").contents().find("#outer1");
+          	if(i==0)
+          	  frame1.empty();
+          	else 
+          	  frame1.append('<div class="demo_line_05">-------------------------------</div>');
+          	frame1.append('<div class="payday">日期'
+          	+'</div><div class="paymoney">金额'+'</div>');
+        	frame1.append('<div class="payday">'+order_date.substring(0,10)
+          	+'</div><div class="paymoney">'+order_paid+'</div>'); 
+            
+        }
+	</script>
+	
 </html>

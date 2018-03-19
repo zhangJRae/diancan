@@ -1,0 +1,167 @@
+<!-- 联系我们页面 -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		  <!-- Bootstrap Core CSS -->
+	    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+		
+		<style>
+			body{
+				background: url(../img/pop.png);
+				background-repeat: no-repeat;
+				background-attachment: fixed;
+			}
+			.texttitle{
+				margin-top: 50px;
+				margin-left: 12px;
+				letter-spacing: 10px;
+				font-size: 24px;
+				color: whitesmoke;
+			}
+			.usrtitle{
+				margin-top:35px;
+				margin-left: 90px;
+				width:200px;
+				height:40px;
+			<!--	border:2px solid #434A52;-->
+				padding-top: 10px;
+				padding-left:10px;
+				padding-bottom: 20px;
+			}
+			.perlo{
+			
+				border: 2px solid transparent;
+				width: 280px;
+				height:200px;
+				margin-top: 20px;
+				margin-left: 80px;
+				
+			}
+			.info{
+			
+				border: 2px solid transparent;
+				margin-top: 5px;
+				margin-left:2px ;
+				width: 250px;
+				height: 30px;
+				
+				
+			}
+			p{
+				border: 2px solid transparent;
+				padding-top: -10px;
+				margin-top:1px;
+				width: 200px;
+				height: 15px;
+			}
+			
+
+				.enlo{
+				margin-top: 20px;
+				margin-left: 290px;
+				width: 60px;
+				height: 80px;
+				border:2px solid transparent;
+			}
+		
+		</style>
+	</head>
+	
+	
+	
+	
+	<body>
+		
+		<div class="texttitle">
+			<div>联系我们</div>
+		</div>
+		
+		<div class="usrtitle">
+			<div>联系我们</div>
+			<div style="padding-top: 5px;">CONTACT US</div>
+		</div>
+		
+		<div class="perlo">
+			<div class="info">
+				
+				<p>
+					<span class="fa-stack fa-lg">
+						<i class="fa fa-square-o fa-stack-2x"></i>
+						<i class="fa fa-envelope-o fa-stack-1x"></i>
+					</span> 邮箱：</p>
+				<p id="email" style="margin-top: -20px; margin-left: 80px; width: 150px;"> </p>
+			</div>
+			
+			<div class="info">
+				<p style="font-size:14px;">
+					<span class="fa-stack fa-lg">
+  						<i class="fa fa-square-o fa-stack-2x"></i>
+  						<i class="fa fa-mobile fa-stack-1x"></i>
+					</span> 电话：</p>
+				<p id="mobile" style="margin-top: -18px; margin-left: 80px; width: 150px;"> </p>
+			</div>
+			
+			<div class="info">
+				<p>
+					<span class="fa-stack fa-lg">
+						<i class="fa fa-square-o fa-stack-2x"></i>
+						<i class="fa fa-map-o fa-stack-1x"></i>
+					</span> 地址：</p>
+				<p id="address" style="margin-top: -18px; margin-left: 80px; width: 200px;"> </p>
+			</div>
+			
+			<div class="info">
+				<p>
+					<span class="fa-stack fa-lg">
+						<i class="fa fa-square-o fa-stack-2x"></i>
+						<i class="fa fa-hand-paper-o fa-stack-1x"></i>
+					</span> 在线：</p>
+				<p id="online" style="margin-top: -18px; margin-left: 80px; width: 150px;"> </p>
+			</div>
+		
+			
+		</div>
+		
+		
+		 <!--<div class="enlo">  
+			<button type="button" class="btn  btn-default">返回</button>
+		 </div>-->
+
+	</body>
+</html>
+<script type="text/javascript" src="../js/jquery-3.3.1.min.js" ></script>
+<script type="text/javascript">
+	function getinfo_u()//请求酒店信息
+	{
+		var u_i_url=" http://192.168.1.196:9090//outerApi/ContactInfo";
+		$.ajax({
+			type:"post",
+			url:u_i_url,
+			timeout:1000,
+			contentType: "application/x-www-form-urlencoded",
+			async:false,
+			error:function(){
+				alter('Failed to communicate to the server. Try again!')
+			},
+			success:function(cont){
+				var result=eval('('+cont+')');
+				if(result["rspCode"]=="DC00000")
+				{
+					var con_pho=result["contact_phone"];
+					var con_ema=result["contact_email"];
+					var con_add= result["contact_address"];
+					var con_time=result["contact_workTime"];
+					$("#email").html(con_ema);
+					$("#mobile").html(con_pho);
+					$("#address").html(con_add);
+					$("#online").html(con_time);
+				}
+			}
+		})
+	}
+	getinfo_u();
+</script>
+

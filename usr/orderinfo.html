@@ -1,0 +1,214 @@
+<!-- 订单信息页面 -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+        <!-- Bootstrap Core CSS -->
+	    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<style>
+			body{
+				background: url(../img/pop.png);
+				background-repeat: no-repeat;
+				background-attachment: fixed;
+			}
+			.texttitle{
+				margin-top: 50px;
+				margin-left: 12px;
+				letter-spacing: 10px;
+				font-size: 24px;
+				color: whitesmoke;
+			}
+			.usrtitle{
+				margin-top:35px;
+				margin-left: 90px;
+				width:200px;
+				height:40px;
+			<!--	border:2px solid #434A52;-->
+				padding-top: 10px;
+				padding-left:10px;
+				padding-bottom: 20px;
+			}
+		
+			.outer{
+				border: 2px solid transparent;
+				position: fixed;
+				margin-top: 35px;
+				margin-left: 60px;
+				width: 320px;
+				height: 330px;
+				padding: 2px 2px 2px 2px;
+			}
+			.coulo{
+				margin-top: 20px;
+				margin-left: 100px;
+			}
+				.enlo{
+				margin-top:-20px;
+				margin-left: 75%;
+				width: 60px;
+				border:2px solid transparent;
+			}
+			.orderlo{
+				position: fixed;
+				border: 2px solid transparent;
+				margin-left: 0;
+				width: 310px;
+				height: 200px;
+				margin-top: 5%;
+				padding: 1px 1px 1px 1px;
+
+			}
+			.iframe{
+				position: fixed;
+				border: 2px solid transparent;
+				margin-top: 50px;
+				margin-left: auto;
+				width: 250px;
+				height: 300px;
+			}
+			.detals{
+				border: 2px solid transparent;
+				margin-left: 30px;
+				margin-top:250px;				
+				width: 300px;
+				height: 65px;				
+			}
+			p{
+				border: 2px solid transparent;
+				padding: 2px;
+				margin: -5px -10px -10px 10px;		
+				width: 150px;		
+				height: 30px;;
+				
+			}
+			.button{
+				border: 2px solid #000000;
+
+				position: fixed;
+			}
+		</style>
+	</head>
+	
+	
+	
+	
+	<body>
+		
+		<div class="texttitle">
+			<p>订单信息</p>
+		</div>
+		<div class="outer">
+			<div class="orderlo">
+			<iframe id="frame1" name=="frame1" frameborder="0" scrolling="no" 
+			width="100%" height="100%"	 src="order.html" style="border:0px; "></iframe>
+			</div>
+			<div class="detals">
+				
+				<div class="row">
+				<p>
+					总计：
+				</p>
+				<p id="order_total_money" style="position:fixed; border: 2px solid transparent; margin-top: -20px; margin-left:100px;float: right; width: 200px;;">
+					
+				</p>
+				</div>
+				
+				<div class="row">
+				<p>
+					预订时间：
+				</p>
+				<p id="ordertime"style="position:fixed; border: 2px solid transparent; margin-top: -20px; margin-left:100px;float: right; width: 200px;;">
+					
+				</p>
+				</div>
+				
+				
+				<div class="row">
+				<p>
+					用餐人数：
+				</p>
+				<p id="people"style="position:fixed; border: 2px solid transparent; margin-top: -20px; margin-left:100px;float: right; width: 200px;;">
+					
+				</p>
+				</div>
+				
+				<div class="row">
+				<p>
+					桌号：
+				</p>
+				<p id="tablenum" style="position:fixed; border: 2px solid transparent; margin-top: -20px; margin-left:100px;float: right; width: 200px;;">
+					
+				</p>
+				</div>
+				
+				<div class="row">
+				<p>
+					实付金额：
+				</p>
+				<p id="order_paid" style="position:fixed; border: 2px solid transparent; margin-top: -20px; margin-left:100px;float: right; width: 200px;;">
+					
+				</p>
+				</div>
+							
+				
+			</div>				
+	</div>
+	<script type="text/javascript" src="../js/jquery-3.3.1.min.js" ></script>
+	<script type="text/javascript" src="../js/cookieSet.js" ></script>
+    <script type="text/javascript">
+		$(document).ready(function(){	
+          var user_id=getCookie("user_id");
+          if(user_id==null || user_id=="")
+            window.location.href="../login.html";                    
+        });
+        
+        $(window).on("load",function(){
+           	getOrder(getCookie("user_id"));
+         }); 
+        
+        //请求获取订单信息
+        function getOrder(user_id)
+        {
+          var u="http://192.168.1.196:9090//outerApi/orderInfo?user_id="
+        	+user_id;
+            $.ajax({
+                type: "POST",//方法类型
+                url: u,//url           
+                contentType: "application/x-www-form-urlencoded",
+                async: false,
+                success: function (r) {
+                	var result = eval( '(' + r + ')' );                
+                    if (result["rspCode"] == "DC00000") {  
+                     $("#ordertime").text(result["order_date"]);   
+                     $("#people").text(result["order_people_num"]);
+                     $("#tablenum").text(result["order_board_id"]); 
+                     $("#order_paid").text(result["order_paid"]);                      
+                     $("#order_total_money").text(result["order_total_money"]); 
+                     var foods=eval( '(' + result["food_info"] + ')' );
+                     $("#frame1").contents().find("#tbody-list").empty(); 
+                     for(var i=0;i<foods.length;i++)    
+                    	addFood(foods[i]);   
+                    }else
+                       parent.sweetAlert("提示","异常！", "warning");
+                },
+              error : function() {
+                      parent.sweetAlert("提示","异常！", "warning");
+                }
+            });	
+        	
+        }
+        
+        //列表中添加菜品
+        function addFood(food)
+        {
+          	var frame1 =$("#frame1").contents().find("tbody#tbody-list");	
+          	console.log(frame1);
+          	frame1.append('<tr><td ><img src="../img/food/shaoe.jpg"></td><td>'+food["foodName"]
+          	+'</td><td>'+food["unitPrice"]+'</td><td>'+food["foodNum"]
+          	+'</td><td>'+food["totalMoney"]+'</td></tr>');           	
+        }
+	</script>
+	
+	</body>
+</html>

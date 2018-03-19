@@ -1,3 +1,4 @@
+<!-- 个人信息页面 -->
 <!DOCTYPE html>
 <html>
 	<head>
@@ -82,6 +83,10 @@
 				height: 30px;
 				font-size: 15px;
 			}
+			
+			.one{
+				cursor: pointer;
+			}
 		</style>
 	</head>
 	
@@ -90,7 +95,7 @@
 	
 	<body>
 		
-		<div class="texttitle">
+		<div class="texttitle ">
 			<p>账户</p>
 		</div>
 		
@@ -102,34 +107,76 @@
 		<div class="card">
 			
 			<div class="vip">
-				<div>VIP</div>
+				<div id="isVIP"></div>
 			</div>
 			
-				<div style="width:150px;margin-left: 23px;padding-top: 2px; font-size:12px;color:whitesmoke;">卡号：</div>
-				<div style="margin-top:-20px;padding-top:4px;margin-left: 200px; font-size:12px;color:whitesmoke;">等级</div>
+				<div style="width:150px;margin-left: 23px;padding-top: 2px; font-size:12px;color:whitesmoke;">卡号：<span id="cardno"></span></div>
+				<!--<div style="margin-top:-20px;padding-top:4px;margin-left: 200px; font-size:12px;color:whitesmoke;">等级</div>-->
 				<div class="balance">
-					<div>0.00</div>
+					<div id="balance"></div>
 					<div style="font-size: 12px;">余额</div>
 				</div>
 				<div class="credit">
-					<div>0.00</div>
+					<div id="accumulate_points"></div>
 					<div style="font-size: 12px;">积分</div>
 				</div>
-				<div class="coupon">
-					<div>0.00</div>
+				<div class="coupon one" onclick='window.location.href="coupons.html";'>
+					<div id="couponNo"></div>
 					<div style="font-size: 12px;">优惠券<span style="font-size: 10px;">(张)</span></div>
 				</div>
 				
 				<div class="remain" style="margin-left: 20px;">
-					<div >充值</div>
-					<div style="margin: -20px auto auto 60px;">历史账单</div>		
-					<div style="margin: -20px auto auto 150px;">修改个人信息</div>
+					<div class="one" onclick='window.location.href="renewal.html";'>充值</div>
+					<div class="one" style="margin: -20px auto auto 60px;" 
+					onclick='window.location.href="historical.html";'>历史账单</div>		
+					<div class="one" style="margin: -20px auto auto 150px;" 
+				    onclick='window.location.href="showinfo.html";'>个人信息</div>
+				</div>		
 				</div>
-			
-		
-				</div>
-		</div>
-
-
+	</div>
 	</body>
+	<script type="text/javascript" src="../js/jquery-3.3.1.min.js" ></script>
+	<script type="text/javascript" src="../js/cookieSet.js" ></script>
+	<script type="text/javascript">
+		$(document).ready(function(){	
+          var user_id=getCookie("user_id");
+          if(user_id==null || user_id=="")
+            window.location.href="../login.html"; 
+          else
+            getInfo(user_id);
+         
+        });
+        
+        //请求个人信息
+        function getInfo(user_id)
+        {
+          var u="http://192.168.1.196:9090//outerApi/getUsrInfo?user_id="
+        	+user_id;
+            $.ajax({
+                type: "POST",//方法类型
+                url: u,//url           
+                contentType: "application/x-www-form-urlencoded",
+                async: false,
+                success: function (r) {
+                	var result = eval( '(' + r + ')' );                
+                   // console.log(r);//打印服务端返回的数据(调试用)
+                    if (result["rspCode"] == "DC00000") {  
+                    if (result["member_level"] == 0)	
+                       $("#isVIP").text("普通 会员");
+                    else
+                       $("#isVIP").text("VIP 会员");
+                     $("#balance").text(result["balance"]);   
+                     $("#accumulate_points").text(result["accumulate_points"]);
+                     $("#couponNo").text(result["coupon_num"]); 
+                      $("#cardno").text(result["user_card_no"]);                      
+                    }else
+                       parent.sweetAlert("提示",result["rspMsg"], "warning");
+                },
+              error : function() {
+                    parent.sweetAlert("提示","异常！", "warning");
+                }
+            });	
+        	
+        }
+	</script>
 </html>

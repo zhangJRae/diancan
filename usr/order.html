@@ -1,0 +1,84 @@
+<!-- 订单信息中的菜品列表页面 -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<!-- Bootstrap Core CSS -->
+        <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<style>
+			.contain{
+				border: 2px solid transparent;
+				width: auto;
+				height:30px;
+				
+			}
+			p{
+				font-size: 15px;;
+			}
+			td{
+				width: 100px;
+				text-align: center;
+				padding: 2px 2px 2px 2px;
+			}
+			img{
+				width: 25px;
+				height: 25px;
+			}
+			
+
+        table thead {
+        	display:block;
+            width: calc( 100% - 1em )
+        }
+    
+			
+		table tbody {
+            display:block;
+            max-height: 150px;
+            width: 300px;
+            overflow-y:scroll;
+        }
+            
+        table tbody::-webkit-scrollbar {/*滚动条整体样式*/
+        width: 7px;     /*高宽分别对应横竖滚动条的尺寸*/
+        height: 1px;
+       }        
+        table tbody::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        background: #FFE7BA;
+       }
+        table tbody::-webkit-scrollbar-track {/*滚动条里面轨道*/
+       	-webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        border-radius: 5px;
+        border-width: 0;
+        background: #FFF8DC;
+       }
+			
+			
+		</style>
+	</head>
+	<body>
+		
+		<div class="contain">
+			<div id="imgn row">
+				<table >
+					    <thead>	
+						<tr>
+							<td></td>
+							<td>菜名</td>
+							<td>单价</td>
+							<td>数量</td>
+							<td>小计</td>	
+						</tr>
+						</thead>
+						 <tbody id="tbody-list" >  						
+				         </tbody>
+				        <tfoot>
+				        </tfoot>
+				</table>
+			</div>
+		</div>
+	</body>
+</html>

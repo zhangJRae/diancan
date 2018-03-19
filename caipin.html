@@ -1,3 +1,4 @@
+<!-- 选择菜品页面 -->
 <!DOCTYPE html>
 <html>
 	<head>
@@ -81,7 +82,6 @@
 				width: 100%;
 				border-radius: 10px;
 				font-size: 20px;
-				/*margin:auto 0;*/
 			}
 			
         
@@ -130,7 +130,6 @@
         #cfFood img{float:right;margin-bottom: 20px;}
         
         .one {    
-   /* margin: 0 auto;  */ 
     padding-top: 5px; 
     letter-spacing:2px;
     float:right; 
@@ -232,6 +231,8 @@
        $("#username").text(getCookie("user_name"));
             
    	 $("#pageIndex").val(1);
+   	 
+   	 //请求获取菜系列表
      $.ajax({
                 type: "POST",//方法类型
                 url: "http://192.168.1.196:9090//outerApi/getAllFoodType",//url
@@ -264,7 +265,7 @@
        selectType(1,1,1);
          
      });
-  
+  //用户注销
   function logout()
   {
         	delCookie("user_id");
@@ -274,22 +275,13 @@
             delCookie("user_phone");
             window.location.href='login.html'; 
    }
-        
+   //个人中心入口     
    function info()
    {
       window.location.href='usr_info.html';
    } 
   
-  
- function initPag(num)
- {
-// 	$("#pag").empty();
-// 	$("#pag").append('<li><a id="aPre" onclick="loadPre()" href="#">«</a></li>');
-// 	for(var i=1;i<=num;i++)
-// 	  $("#pag").append('<li><a id="a'+i+'" href="#">'+i+'</a></li>');
-// 	$("#pag").append('<li><a id="aNext" onclick="loadNext()" href="#">»</a></li>');          	
- }
- 
+ //加载分页的第page页
   function loadN(page)
  {
  	var index=Number($("#pageIndex").val());
@@ -297,7 +289,7 @@
  	selectType(type,page,index);
  	
  }
- 
+ //加载分页的上一页
  function loadPre()
  {
  	var index=Number($("#pageIndex").val());
@@ -308,7 +300,7 @@
  	selectType(type,pre,index);
  	
  }
- 
+  //加载分页的下一页
   function loadNext()
  {
  	 var index=Number($("#pageIndex").val());
@@ -319,6 +311,7 @@
  		
  }
  
+ //分页改变后ui的调整
  function PageChange(index,next)
  {
  	if(index<1||next<1||index>5||next>5)
@@ -328,6 +321,7 @@
  	 $("#pageIndex").val(next); 
  }
  
+ //选择框中添加菜系
  function addType(id,name)
  { 
  	$("#caixi").append('<option  value="'+id+'">'+name+'</option>');
@@ -338,22 +332,25 @@
    	} 	
  }
  
+ //选中菜系后请求新的菜品列表
   function sele_Change(){
     var objS = form1.caixi;
     var type = objS.options[objS.selectedIndex].value;
     var index=Number($("#pageIndex").val());
     selectType(type,1,index);
   }
- 
+  
+ //列表中添加菜品
   function addFood(food,num)
  {
  	$("#cfFood").append('<div class="food"><img src="img/food/shaoe.jpg" /><ul><li><strong>菜名</strong>&nbsp;'
  	+food["food_name"]+'</li><li><strong>月销</strong>&emsp;'+food["food_monthlysales"]+'</li><li><strong>价格</strong>&emsp;'
  	+food["food_price"]+'</li><li><strong>会员价格</strong>&emsp;'+food["food_vip_price"]+'</li><li><div class="one"><strong>介绍</strong>&emsp;' 	
-	+food["food_remark"]+food["food_remark"]+food["food_remark"]+food["food_remark"]+food["food_remark"]
+	+food["food_remark"]
 	+'</div></li></ul><div><button class="btn-remove" onclick="removeF('+food["food_id"]+')"></button><span id="'+'foodSum'+food["food_id"]+'">'+num+'</span><button class="btn-add" onclick="addF('+food["food_id"]+')"></button></div></div>');
  }
  
+ //菜品数目+1
  function addF(id)
  {
  	var sp=document.getElementById('foodSum'+id); 
@@ -364,6 +361,7 @@
  	submitF(id,count);	
  }
  
+ //菜品数目-1
   function removeF(id)
  {
  	var sp=document.getElementById('foodSum'+id); 
@@ -373,6 +371,8 @@
  	sp.innerText=count;
  	submitF(id,count);
  }
+ 
+ //更新数目改变后的菜品
   function submitF(id,count)
   {
   	$.ajax({
@@ -397,7 +397,8 @@
             });
   }
  
- function selectType(type,page,index)
+ //请求菜品列表
+ function selectType(type,page,index)//菜系，请求页数，当前页数
  {
  	$.ajax({
                 type: "POST",//方法类型
@@ -457,7 +458,7 @@ function getParams(key) {
             }
             console.log("null");
             return null;
-        };
+ };
  </script>
      
 

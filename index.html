@@ -1,3 +1,4 @@
+<!-- 首页 选桌&选择菜系 -->
 <!DOCTYPE html>
 <html>
 	<head>
@@ -10,7 +11,7 @@
 			body {
 				font-family: "楷体";
 				font-size: 12px;				
-				background: url(img/bj2.png)  top center;
+				background: url(img/bj2.png) top center;
 				background-attachment: fixed; 
 				background-repeat:no-repeat;				
 			}
@@ -57,15 +58,10 @@
 				margin-left: 550px;
 				position: relative;
 				width: 500px;	
-				height: 600px;		
-				/*border-radius: 10px;
-				background: url(img/kuang.png)  no-repeat ;
-				background-size: 100%;*/				
+				height: 600px;						
 			}
 			#selectType {
 				float:left;
-				/*margin-top:60px;
-				margin-right: 240px;*/
 				margin:7% 0 0 40% ;
                 *margin:7% 0 0 40% ; 
 				position:absolute;
@@ -134,16 +130,76 @@
      <script type="text/javascript" src="js/cookieSet.js" ></script>
 	 <script type="text/javascript">	
 	 	$(document).ready(function(){	
-	 	 $("#selectType").hide();
-	 	  login();
+	 	 $("#selectType").hide(); //先隐藏选择菜系的iframe
+	 	  login(); //验证用户密码的有效
           var user_id=getCookie("user_id");
           if(user_id==null || user_id=="")
             window.location.href="login.html"; 
           else
             $("#username").text(getCookie("user_name"));
-         
+           orderWithoutFinish(user_id); 
         });
+      
+      //检验是否有未完成的订单
+      function orderWithoutFinish(user_id)
+        {
+        	var u="http://192.168.1.196:9090//outerApi/orderWithoutFinish?user_id="+user_id;
+            $.ajax({
+                type: "POST",//方法类型
+                url: u,//url
+                timeout : 1000,                                                 
+                contentType: "application/x-www-form-urlencoded",
+                async: false,
+                success: function (r) {
+                	var result = eval( '(' + r + ')' );                
+                   // console.log(r);//打印服务端返回的数据(调试用)
+                    if (result["rspCode"] == "DC00025") {
+                    	
+                    	if(result["order_id"]!=null)
+                    	{
+                    		SetCookie("order_id",result["order_id"]);
+                    		if(result["order_status"]=="UK")
+                    		{
+                    			swal({ 
+                              title: "", 
+                              text: "你还有未完成的订单，是否继续上次下单？", 
+                              type: "warning",
+                              showCancelButton: true, 
+                              confirmButtonColor: "#DD6B55",
+                              confirmButtonText: "继续下单", 
+                              cancelButtonText: "重新下单",
+                              closeOnConfirm: false, 
+                              },function(isConfirm){
+                              	if(isConfirm)
+                              	  window.location.href='caipin.html'; 
+                              	});
+                    	     }else if(result["order_status"]=="UM")
+                    		{
+                    			swal({ 
+                              title: "", 
+                              text: "你还有未结账的订单，是否继续上次结账？", 
+                              type: "warning",
+                              showCancelButton: true, 
+                              confirmButtonColor: "#DD6B55",
+                              confirmButtonText: "继续结账", 
+                              cancelButtonText: "重新下单",
+                              closeOnConfirm: false, 
+                              },function(isConfirm){
+                              	if(isConfirm)
+                              	  window.location.href='clientOrderList.html'; 
+                              	});
+                    	    } 
+                    	 }
+                    }else if (result["rspCode"] != "DC00000")
+                      sweetAlert("提示",result["rspMsg"],"warning");
+                },
+              error : function() {
+                    sweetAlert("提示","异常！","warning");
+                }
+            });
+        }
         
+        //用户注销
         function logout()
         {
         	delCookie("user_id");
@@ -154,11 +210,13 @@
             window.location.href='login.html'; 
         }
         
+        //个人中心入口
         function info()
         {
         	window.location.href='usr_info.html';
         }
         
+        //隐藏选桌，显示选择菜系
         function showType(t){ 
         	t=t*1000;
               $("#jt").animate({
@@ -175,6 +233,7 @@
             setTimeout('$("#selectTable").hide();',t);                        
         }               
         
+        //用户登录
          function login() {
         	var tel=getCookie("user_phone");
         	var pwd = getCookie("user_password");

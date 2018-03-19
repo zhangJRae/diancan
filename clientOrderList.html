@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿<!-- 购物车页面 -->
+<!DOCTYPE html>
 <html>
 	<head>
 		<script src="js/sweet-alert.min.js"></script>
@@ -256,17 +257,22 @@
      <link rel="stylesheet" href="Select-or-Die/css/selectordie_theme_04.css" />
 	 <script type="text/javascript">	
 	 	$(document).ready(function(){
+	 	 //优惠券选择框初始化
 	 	  $("#Coupon").selectOrDie();
+	 	  
+	 	  //保证user_id存在
           var user_id=getCookie("user_id");
           if(user_id==null || user_id=="")
             window.location.href="login.html"; 
           else
-            $("#username").text(getCookie("user_name")); 
-            initList();
-            md_sele();
-            $("#Coupon").change(useCoupon);
+            $("#username").text(getCookie("user_name"));
+            
+          initList();
+          md_sele(); //选择框的mousedown事件
+          $("#Coupon").change(useCoupon); //选中值改变时触发
         });
         
+        //注销账户
         function logout()
         {
         	delCookie("user_id");
@@ -277,11 +283,13 @@
             window.location.href='login.html'; 
         }
         
+        //个人中心入口
         function info()
         {
         	window.location.href='usr_info.html';
         }
-   
+
+//请求获取优惠券列表
 function md_sele()
 {
   $("div.sod_select").eq(0).on("mousedown", function(){
@@ -328,6 +336,7 @@ function md_sele()
   }); 
 }
  
+ //获取使用优惠券后的总价
  function useCoupon()
  {
  	if($("#Coupon").val()=="")
@@ -356,6 +365,7 @@ function md_sele()
    });
  }
 
+ //列表中添加菜品 
  function addFood(food)
  {
  	
@@ -365,6 +375,7 @@ function md_sele()
  	+'foodtotal'+food["foodId"]+'">'+food["total"].toFixed(1)+'</span></td></tr>');
  }
  
+ //列表中菜品数目加1
  function addF(id)
  {
  	var sp=document.getElementById('foodSum'+id); 
@@ -375,6 +386,7 @@ function md_sele()
  	submitF(id,count);	
  }
  
+  //列表中菜品数目-1
   function removeF(id)
  {
  	var sp=document.getElementById('foodSum'+id); 
@@ -386,6 +398,8 @@ function md_sele()
  	if(count==0)
  	 sp.parentNode.parentNode.remove(); 
  }
+ 
+  //提交更新数目改变的菜品
   function submitF(id,count)
   {
   	var u="http://192.168.1.196:9090//outerApi/shoppingCartAddMinus?food_id="
@@ -425,6 +439,7 @@ function md_sele()
             });
   }
  
+ //请求加载菜品列表
  function initList()
  {
  	$.ajax({
@@ -477,23 +492,25 @@ function md_sele()
      });	
  }
  
+ 
  $('input:radio[name="cType"]').change( function(){
- 	if(this.value==1)
+ 	if(this.value==1) //优惠券优惠方式
  	{
- 	  $("div.sod_select").eq(0).removeClass("disabled");	
+ 	  $("div.sod_select").eq(0).removeClass("disabled");//优惠券选择框置为可用	
  	  $("#Coupon").removeAttr("disabled");
  	  $("#totalm").text($("#summ").text()); 
  	}	 
- 	else
+ 	else //vip优惠方式
  	{
- 	  $("div.sod_select").eq(0).addClass("disabled");	
+ 	  $("div.sod_select").eq(0).addClass("disabled");//优惠券选择框置为不可用	
  	  $("#Coupon").attr("disabled","disabled");	
  	  $("#Coupon").val("");
  	  $("div.sod_label").eq(0).text("不使用");
  	  $("#totalm").text($("#vipm").text());  
  	} 	  
  });
- 
+
+//提交订单
 function checkOut()
 {
  var u="http://192.168.1.196:9090//outerApi/checkOut?order_id="+getCookie("order_id");
@@ -527,7 +544,6 @@ function checkOut()
                 }
             });	
 }
-
  </script>
      
 

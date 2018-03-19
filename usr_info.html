@@ -1,3 +1,4 @@
+<!-- 个人中心页面 -->
 <!DOCTYPE html>
 <html>
 	<head>
@@ -6,7 +7,8 @@
 		    <meta name="description" content="Login">
 		    <meta name="author" content="Amber">
     		<title>重庆大酒店在线点餐系统</title>
-
+	        <script src="js/sweet-alert.min.js"></script>
+            <link rel="stylesheet" href="css/sweet-alert.css">
 		    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 		    
 		    
@@ -101,11 +103,11 @@
 		<div id="cqu">重庆大酒店</div> 
 			<div class="wrap">
 				<div class="left">
-					 <div class="one" >叁
+					 <div class="one" onclick="intoCon()">叁
 					 	<img src="img/verline.png"></img> 联系我们</div>    
 				 </div>
 				  <div class="middle">
-				 	<div class="one" >贰
+				 	<div class="one" onclick="intoOrder()">贰
 				 		<img src="img/verline.png"></img> 订单信息</div>    
 				</div>
 				 <div class="right">
@@ -120,9 +122,18 @@
 	</body>
 	<script type="text/javascript" src="js/jquery-3.3.1.min.js" ></script>
 	<script type="text/javascript">
-		function intoInfo()
+		function intoInfo()//个人信息
 		{
            $('iframe').attr('src',"usr/in_info.html");  
+		}		
+		function intoOrder()//订单信息
+		{
+		   $('iframe').attr('src',"usr/orderinfo.html");
+		}
+		
+		function intoCon()//联系我们
+		{
+		   $('iframe').attr('src',"usr/contactus.html");
 		}
 		
 	</script>

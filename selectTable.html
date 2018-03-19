@@ -1,18 +1,11 @@
+<!-- 选择餐桌页面 -->
 <!DOCTYPE html>
 <html>
 	<head> 
 		<meta charset="UTF-8">
 		<title>重庆大酒店在线点餐系统</title>
 		<!-- 内部文档样式表 -->
-		<style>
-			/*body {
-				font-family: "宋体";
-				font-size: 12px;				
-				background: url(img/bj2.png)  center center;
-				background-attachment: fixed; 
-				background-repeat:no-repeat;
-			}*/
-		
+		<style>		
 		  input, select{
           box-sizing: border-box;
           -moz-box-sizing: border-box;
@@ -104,7 +97,7 @@
 <link rel="stylesheet" href="Select-or-Die/css/selectordie.css" />
 <link rel="stylesheet" href="Select-or-Die/css/selectordie_theme_02.css" />
 <script>   
-//执行一个laydate实例
+//执行一个日历laydate实例
 laydate.render({
   elem: '#seldate', //指定元素
   min: 0,
@@ -113,20 +106,20 @@ laydate.render({
 }); 
 
 $(document).ready(function(){
+	//引入选择框样式，初始化
    $("#cfCount").selectOrDie({
-        onChange: cfNoInit
+        onChange: cfNoInit  //选择框值改变时执行 
     });
    $("#cfTime").selectOrDie({
         onChange: cfNoInit
     });
    $("#cfNo").selectOrDie();
-   md_sele();
-  $('input').change(cfNoInit);
- // $("#cfCount").change(cfNoInit);
-  //$("#cfTime").change(cfNoInit);
-         
+   
+   md_sele(); //桌号选择框的mousedown事件
+  $('input').change(cfNoInit); //  input值改变时执行      
  });
  
+//桌号选择框初始化 ，清除之前的选中值
 function cfNoInit()
 {
    $("#cfNo").empty();
@@ -136,6 +129,8 @@ function cfNoInit()
    $("div.sod_label").eq(2).html('请选择用餐桌号');
    
 }
+
+//点击桌号选择框时请求获取可用的桌号列表
 function md_sele()
 {
   $("div.sod_select").eq(2).on("mousedown", function(){
@@ -182,8 +177,7 @@ function md_sele()
                          var strHtml='<ul style="max-height:160px;"><li class="selected active" title="请选择用餐桌号" data-value="">请选择用餐桌号</li>';
                          for (var i=0;i<b.length;i++)
                          {
-                           form1.cfNo.options.add(new Option(b[i]+"号",b[i]));
-                          // $("#cfNo").append('<option value="'+b[i]+'">'+b[i]+'</option>');
+                           form1.cfNo.options.add(new Option(b[i]+"号",b[i])); 
                            strHtml+='<li class="" title="'+b[i]+"号"+'" data-value="'+b[i]+'">'+b[i]+"号"+'</li>';                           
                          }
                          strHtml+='</ul>';
@@ -198,6 +192,7 @@ function md_sele()
   }); 
 }
 
+//提交选桌信息
 function submitForm()
 {
 	if(form1.cfType.value=="")
@@ -238,7 +233,6 @@ function submitForm()
                 async: false,
                 success: function (r) {
                 	var result = eval( '(' + r + ')' );                
-                   // console.log(r);//打印服务端返回的数据(调试用)
                     if (result["rspCode"] == "DC00000") {   
                        delCookie("order_id");
                        SetCookie("order_id",result["order_id"]);  

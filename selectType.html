@@ -1,34 +1,20 @@
+<!-- 选择菜系页面 -->
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
 		<title>重庆大酒店在线点餐系统</title>
 		<!-- 内部文档样式表 -->
-		<style>
-			/*body {
-				font-family: "宋体";
-				font-size: 12px;				
-				background: url(img/bj2.png)  center center;
-				background-attachment: fixed; 
-				background-repeat:no-repeat;
-			}*/		 
+		<style>	 
 		  input, select{
           box-sizing: border-box;
           -moz-box-sizing: border-box;
           -webkit-box-sizing: border-box;
           }
 			#cfType {
-				/*float:right;
-				margin-top:40px;
-				margin-right: 300px;*/
 				position: relative;
 				width: 360px;
-				/*边框样式*/
-				/*border: solid 10px #FFF;*/
 				border-radius: 10px;
-				/*边界样式*/
-				/*margin: 200px auto 0px;*/
-				/*background-color: rgba(255,255,255, 0.7);*/
 			}
 			#cfType dl dt {
 			
@@ -71,7 +57,6 @@
 				
 			}
 			.btn-submit:hover {
-				/*background-color: lightgreen;*/
 				opacity: 0.8;
 			}			
 		a {
@@ -100,7 +85,8 @@
 		</div>
 <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>	  
 <script>   
-$(document).ready(function(){	
+$(document).ready(function(){
+	//请求获取菜系列表
   $.ajax({
                 type: "POST",//方法类型
                 url: "http://192.168.1.196:9090//outerApi/getAllFoodType",//url  
@@ -115,8 +101,7 @@ $(document).ready(function(){
                        {
                        	var f=eval(fs[i]);
                        	addType(f.food_id,f.food_name);    
-                       }
-                                           
+                       }                                           
                     }else
                       parent.sweetAlert("提示",result["rspMsg"],"warning");
                 },
@@ -126,33 +111,18 @@ $(document).ready(function(){
             });
          
  });
+ 
+ //添加菜系
  function addType(id,name)
  {
  	$("#caixi").append('<dd><a onclick="selectType('+id
  	+')" ><img src="img/point.png" />'+name+'</a></dd>');	
  }
  
+ //选中菜系后跳转页面
  function selectType(type)
  {
  	parent.location.href='caipin.html?type='+type; 
-// 	$.ajax({
-//              type: "POST",//方法类型
-//              url: "http://192.168.1.196:9090//outerApi/getFoodByType?food_type_id="+type,//url  
-//              timeout : 1000, 
-//              contentType: "application/x-www-form-urlencoded",
-//              async: false,
-//              success: function (r) {
-//              	var result = eval( '(' + r + ')' );                
-//                  console.log(r);//打印服务端返回的数据(调试用)
-//                  if (result["rspCode"] == "DC00000") {  
-//                  	window.location.href='#'; 
-//                  }else
-//                    parent.sweetAlert("提示",result["rspMsg"],"warning");
-//              },
-//            error : function() {
-//                  //parent.sweetAlert("提示","异常！","warning");
-//              }
-//          });
  }
  
 </script>  

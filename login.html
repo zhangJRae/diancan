@@ -1,3 +1,4 @@
+<!-- 登录页面 -->
 <!DOCTYPE html>
 <html lang="en" >
 
@@ -14,10 +15,10 @@
       <form name='form1'>
       	<h1>登录</h1>
         <span class="fontawesome-user"></span>
-          <input type="text" name="tel" id="user" placeholder="手机号">
+          <input type="text" maxlength="11" name="tel" id="user" placeholder="手机号">
        
         <span class="fontawesome-lock"></span>
-          <input type="password" name="password" id="pass" placeholder="密码">
+          <input type="password" maxlength="8" name="password" id="pass" placeholder="密码">
         
         <input type="button" onclick="register()" value="注册">
         <input type="button" onclick="login()" value="登录">
@@ -25,12 +26,13 @@
 </form>
 </body>
 
-	 <script type="text/javascript">	 	
-	 	    function register()
-	 	    {
-	 	    	window.location.href='register.html';  
-	 	    }
-	
+	 <script type="text/javascript">
+	 //跳转到注册页面	
+	 function register()
+	 {
+	 	 window.location.href='register.html';  
+	 }
+	    //登录请求
         function login() {
         	if(form1.tel.value==""||form1.password.value=="")
         	{
@@ -49,13 +51,11 @@
             $.ajax({
                 type: "POST",//方法类型
                 url: u,//url
-                timeout : 1000, 
-               // data: JSON.stringify({"user_name":name,"user_phone":tel,"user_password":pwd}),                                      
+                timeout : 1000,                        
                 contentType: "application/x-www-form-urlencoded",
                 async: false,
                 success: function (r) {
                 	var result = eval( '(' + r + ')' );                
-                    //console.log(r);//打印服务端返回的数据(调试用)
                     if (result["rspCode"] == "DC00000") {
                      swal({ 
                      title: "登录成功！", 
@@ -63,14 +63,14 @@
                      text: "正在进入主页。", 
                      timer: 2000, 
                      confirmButtonColor: "#FFFFFF",                
-                   });                     
+                   });  
+                   //保存登录信息
                      SetCookie("user_id",result["user_id"]);
                      SetCookie("user_name",result["user_name"]);  
                      SetCookie("user_password",pwd); 
                      SetCookie("user_phone",tel); 
                      SetCookie("member_level",result["member_level"]);
-                     setTimeout('window.location.href="index.html";',2000);  
-                    // window.location.href='index.html';                       
+                     setTimeout('window.location.href="index.html";',2000);                         
                     }else
                       sweetAlert("提示",result["rspMsg"],"warning");
                 },
@@ -80,7 +80,7 @@
             });
         
         }
-        
+       //手机号正则表达式验证  
        function isPoneAvailable(str) {  
           var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;  
           if (!myreg.test(str)) {  
@@ -88,8 +88,7 @@
           } else {  
               return true;  
           }  
-      }
-        
+      }        
     </script>
     <script type="text/javascript" src="js/sha1.js"></script>
     <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
